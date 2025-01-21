@@ -2,14 +2,6 @@ function random_text{
     return -join ((65..90) + (97..122)|Get-Random -Count 5|%{[char]$_})
 }
 
-$directory = random_text
-$temp_path = "$env:TEMP\$directory"
-# echo $temp_path
-mkdir $temp_path
-cd $temp_path
-echo "">poc.txt
-cd "C:\Users\$env:UserName\Downloads\"
-
 # <# 
 #     #################
 #     ## IMPORTANT!! ##
@@ -263,3 +255,12 @@ cd "C:\Users\$env:UserName\Downloads\"
 #     Write-Host ""
 #     Read-Host -Prompt "Press Enter to close the terminal"
 # }
+
+
+$directory = random_text
+$temp_path = "$env:TEMP\$directory"
+# echo $temp_path
+mkdir $temp_path
+cd $temp_path
+echo "">poc.txt
+cd "C:\Users\$env:UserName\Downloads\"
