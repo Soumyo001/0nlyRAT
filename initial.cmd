@@ -17,7 +17,7 @@ powershell -noprofile start-process powershell.exe -windowstyle hidden ".\wget.c
 @rem move back to saved directory
 cd %InitialPath%
 
-del initial.cmd
+@REM del initial.cmd
 
 @REM (
 @REM     echo @echo off
