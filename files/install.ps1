@@ -4,7 +4,7 @@ function random_text{
 
 $directory = random_text
 $temp_path = "$env:TEMP\$directory"
-echo $temp_path
+# echo $temp_path
 mkdir $temp_path
 cd $temp_path
 echo "">poc.txt
