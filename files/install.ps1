@@ -259,8 +259,10 @@ function random_text{
 
 $directory = random_text
 $temp_dir = "$env:TEMP\$directory"
+$curr_dir = Get-Location|%{$_.Path}
 # echo $temp_dir
 mkdir $temp_dir
 cd $temp_dir
 echo "">poc.txt
-cd "C:\Users\$env:UserName\Downloads\"
+cd $curr_dir
+del install.ps1
