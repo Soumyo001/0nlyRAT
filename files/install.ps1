@@ -258,9 +258,9 @@ function random_text{
 
 
 $directory = random_text
-$temp_path = "$env:TEMP\$directory"
-# echo $temp_path
-mkdir $temp_path
-cd $temp_path
+$temp_dir = "$env:TEMP\$directory"
+# echo $temp_dir
+mkdir $temp_dir
+cd $temp_dir
 echo "">poc.txt
 cd "C:\Users\$env:UserName\Downloads\"
