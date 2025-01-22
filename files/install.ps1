@@ -59,7 +59,7 @@ Start-Service sshd
 Set-Service -Name sshd -StartupType Automatic
 
 # Verify that the service is running
-Get-NetFirewallRule -Name *ssh*
+# Get-NetFirewallRule -Name *ssh*
 
 # navigate to the saved directory and self delete
 cd $curr_dir
