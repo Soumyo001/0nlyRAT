@@ -61,8 +61,6 @@ Set-Service -Name sshd -StartupType Automatic
 # Verify that the service is running
 Get-NetFirewallRule -Name *ssh*
 
-Pause
-
 # navigate to the saved directory and self delete
 cd $curr_dir
 del install.ps1
