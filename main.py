@@ -4,7 +4,6 @@
 import os
 import sys
 import getpass
-from modules import *
 
 banner = r"""
   /$$$$$$            /$$           /$$$$$$$   /$$$$$$  /$$$$$$$$
@@ -55,6 +54,7 @@ header = f"[~] {username}@onlyrat $ "
 IP_KEY = "IPADDRESS"
 PASS_KEY = "PASSWORD"
 WORKINGDIR_KEY = "WORKINGDIR"
+STARTUPDIR_KEY = "STARTUPDIR"
 
 def read_config(config_file):
     if not os.path.exists(config_file):
@@ -64,6 +64,7 @@ def read_config(config_file):
     configuration[IP_KEY] = read_lines[0].strip()
     configuration[PASS_KEY] = read_lines[1].strip()
     configuration[WORKINGDIR_KEY] = read_lines[2].strip()
+    configuration[STARTUPDIR_KEY] = read_lines[3].strip()
     return configuration
 
 # remotely connect RAT to target
