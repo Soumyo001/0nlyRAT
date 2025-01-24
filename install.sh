@@ -18,6 +18,6 @@ echo [*] creating alias...
 sudo touch /usr/local/bin/onlyrat
 printf "#!/bin/bash\npython3 ~/.0nlyRAT/main.py \"\$@\""|sudo tee /usr/local/bin/onlyrat
 sudo chmod +x /usr/local/bin/onlyrat
-echo [*] Installation Complete
+printf "\n[*] Installation Complete\n"
 
 printf "\n[*] Type \"onlyrat\" in terminal to start 0nlyRAT\n"
