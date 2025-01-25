@@ -59,5 +59,3 @@ public static extern int ToUnicode(uint vKey, uint scanCode, byte[] keyboardStat
 
 
 KeyLogger
-
-#pfzw kdph fnoa cfyq
