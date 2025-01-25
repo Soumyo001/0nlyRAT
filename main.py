@@ -44,6 +44,7 @@ options_menu = """
                 [3] remote download (not done yet) 
                 [4] remote upload   (not done yet) 
                 [5] restart target
+                [6] shutdown target
 
             [+] Options:
                 [-h] or [--help]     ---   help
@@ -158,6 +159,8 @@ def cli(arguments):
                     remote_download(tgt_ipv4,tgt_pword,f"{tgt_td}/{tgt_uname}.log",f"/home/{username}/Downloads/")
                 elif option == "5":
                     remote_command(tgt_ipv4,tgt_pword,"shutdown /r /t 0")
+                elif option == "6":
+                    remote_command(tgt_ipv4,tgt_pword,"shutdown /s /t 0")
                 elif option == "help":
                     clear()
                     print(banner)
