@@ -40,7 +40,7 @@ options_menu = """
             [+] command and control:
                 [0] Remote Console
                 [1] Keylogger       
-                [2] Get keylogs
+                [2] Fetch keylogs
                 [3] remote download (not done yet) 
                 [4] remote upload   (not done yet) 
                 [5] restart target
