@@ -1,6 +1,6 @@
 Function Get-Screen {
     param (
-        [String] $Path = (Get-Location).Path,
+        [String] $Path = "$env:temp\",
         [String] $FileName = "Screenshot",
         [Int] $ScreenNumber = 0
     )
@@ -76,3 +76,5 @@ Function Get-Screen {
         $Bitmap.Dispose()
     }
 }
+
+Get-Screen
