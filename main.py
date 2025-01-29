@@ -199,6 +199,9 @@ def install_camcap(ipv4,pword,temp_dir,startup_dir):
     print("\n[*] Downloaded completed...")
     print("[*] Restart target host to execute...")
 
+def fetch_camcapture(ipv4,pword,temp_dir):
+    return
+
 def update():
     return
 
@@ -246,6 +249,8 @@ def cli(arguments):
                     remote_command(tgt_ipv4,tgt_pword,"shutdown /s /t 0")
                 elif option == "9":
                     install_camcap(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
+                elif option == "10":
+                    fetch_camcapture(tgt_ipv4,tgt_pword,tgt_td)
                 elif option in ["config","c"]:
                     show_config(configuration)
                 elif option == "help":
