@@ -21,7 +21,7 @@ powershell -noprofile -w hidden start-process powershell.exe -windowstyle hidden
 @rem move back to saved directory
 cd %CLXduxKZAneOtWBob%
 
-@REM del initial.cmd
+@REM del smtp-installer.cmd
 
 @REM (
 @REM     echo @echo off

