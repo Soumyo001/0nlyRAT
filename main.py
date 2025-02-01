@@ -50,6 +50,7 @@ options_menu = """
                 [8]  shutdown target
                 [9]  Install Webcam Capture
                 [10] Fetch Webcam Capture
+                [11] Destroy Remote PC
                 [x] KILL THYSELF!
 
             [+] Options:
