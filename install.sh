@@ -1,10 +1,10 @@
 #!/bin/bash
 
-echo [*] re-arranging files...
+echo [*] arranging files...
 mkdir ~/.0nlyRAT
 cd ..
-mv ./Project-0nlyRAT/* ~/.0nlyRAT
-rm -rf ./Project-0nlyRAT
+mv ./0nlyRAT/* ~/.0nlyRAT
+rm -rf ./0nlyRAT
 cd ~/.0nlyRAT
 echo [*] complete...
 
